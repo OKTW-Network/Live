@@ -79,7 +79,7 @@
           userMap.set(this.getUser(item), true)
         }
 
-        return [...userMap.keys()]
+        return [...userMap.keys()].sort((a, b) => a > b)
       }
     },
     methods: {

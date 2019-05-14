@@ -16,7 +16,7 @@ export default new Vuex.Store({
   actions: {
     async getList({ commit }) {
       const data = (await axios.get('https://live.oktw.one/record/list.json')).data
-      const items = data.filter(i => Object.keys(i).length > 0)
+      const items = data.filter(i => Object.keys(i).length > 0).reverse()
       commit('SET_LIST', items)
     }
   }
