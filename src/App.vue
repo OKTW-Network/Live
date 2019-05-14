@@ -20,7 +20,7 @@
             <v-icon>person</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>{{user}}</v-list-tile-title>
+            <v-list-tile-title>{{capName (user)}}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile to="/about">
@@ -35,7 +35,7 @@
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>{{ user || '非常母湯的直播紀錄' }}</v-toolbar-title>
+      <v-toolbar-title>{{ user ? capName (user) : '非常母湯的直播紀錄' }}</v-toolbar-title>
     </v-toolbar>
     <v-content>
         <router-view/>
@@ -76,7 +76,7 @@
         const userMap = new Map()
         const items = this.items
         for (let item of items) {
-          userMap.set(this.getUser(item).replace(/[_-]/, ' ').replace(/(?: |^)[a-z]/g, (m)=> m.toUpperCase()), true)
+          userMap.set(this.getUser(item), true)
         }
 
         return [...userMap.keys()].sort((a, b) => a > b)
@@ -85,6 +85,9 @@
     methods: {
       getUser(item) {
         return item.format.filename.replace(/^.+\/(.+)-\d+.flv$/, '$1')
+      },
+      capName (name) {
+        return name.replace(/[_-]/, ' ').replace(/(?: |^)[a-z]/g, (m)=> m.toUpperCase())
       }
     },
     mounted () {
