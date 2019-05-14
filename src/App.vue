@@ -37,11 +37,11 @@ export default {
         var streamers = {};
         videos.forEach((video) => {
             if (video.streamer in streamers) {
-                streamers[video.streamer].videos.push(video)
+                streamers[video.streamer].records.push(video)
             } else {
                 streamers[video.streamer] = {
                     name: video.streamer,
-                    videos: [video]
+                    records: [video]
                 }
             }
         })
@@ -67,7 +67,7 @@ export default {
           "subtitle" : "Plssssssssssss"
         },
         "streamers" : [
-          {"name":"jikchen5209","records":[ { "duration" : 8787 , "publishTime" : new Date() , "thumbSrc" : "https://cdn.discordapp.com/attachments/276631300390125579/577814092505546752/unknown.png" , "src" : "1" } ]}
+          
         ]
       }
     }
