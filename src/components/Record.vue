@@ -72,8 +72,14 @@ export default {
 
 @media screen and (orientation:portrait) {
     .RecordDiv {
-        min-width: 50%;
-        width: 50%;
+        min-width: 60%;
+        width: 60%;
+    }
+    .RecordPublishTime {
+        font-size:2vh;
+    }
+    .RecordDuration {
+        font-size:3vh;
     }
 }
 
@@ -81,6 +87,12 @@ export default {
     .RecordDiv {
         min-width: 15%;
         width: 15%;
+    }
+    .RecordPublishTime {
+        font-size:2vw;
+    }
+    .RecordDuration {
+        font-size:3vw;
     }
 }
 </style>

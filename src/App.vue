@@ -56,6 +56,7 @@ export default {
             this.data.playing.src = eventData.src;
             this.data.playing.title = eventData.streamer.name;
             this.data.playing.subtitle = eventData.publishTimeText;
+            window.scrollTo(0,0);
           }
       }
   },data() {
