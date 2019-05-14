@@ -76,7 +76,7 @@
         const userMap = new Map()
         const items = this.items
         for (let item of items) {
-          userMap.set(this.getUser(item), true)
+          userMap.set(this.getUser(item).replace(/[_-]/, ' ').replace(/(?: |^)[a-z]/g, (m)=> m.toUpperCase()), true)
         }
 
         return [...userMap.keys()].sort((a, b) => a > b)
