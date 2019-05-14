@@ -17,6 +17,38 @@ export default {
     Player,
     Streamer,
     Divider
+  },async mounted () {
+        const indexURL = "/record/"
+        const videos =  await Promise.all((await (await fetch(indexURL)).json())
+                        .filter(i => i.type === 'file' && i.size !== 0 && i.name.indexOf('.mp4') !== -1)
+                        .map(async i => {
+                            const metadata = await (await fetch(indexURL + i.name.substring(0, i.name.length - 3) + 'json')).json()
+                            return {
+                                streamer: i.name.substring(0, i.name.length - 15),
+                                publishTime: new Date(parseInt(i.name.substring(i.name.length - 14, i.name.length - 4)) * 1000),
+                                thumbSrc: indexURL + i.name.substring(0, i.name.length - 3) + 'png',
+                                duration: metadata.format.duration,
+                                src: indexURL + i.name
+                            }
+                        }))
+
+        videos.sort((a, b) => a.publishTime > b.publishTime ? -1 : a.publishTime < b.publishTime ? 1 : 0)
+
+        var streamers = {};
+        videos.forEach((video) => {
+            if (video.streamer in streamers) {
+                streamers[video.streamer].videos.push(video)
+            } else {
+                streamers[video.streamer] = {
+                    name: video.streamer,
+                    videos: [video]
+                }
+            }
+        })
+
+        for(var streamerName in streamers){
+            this.data.streamers.push(streamers[streamerName])
+        }
   },
   methods: {
       streamClicked(type,eventData){
