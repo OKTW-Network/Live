@@ -35,7 +35,7 @@
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>{{ user || '非常母湯的直撥紀錄' }}</v-toolbar-title>
+      <v-toolbar-title>{{ user || '非常母湯的直播紀錄' }}</v-toolbar-title>
     </v-toolbar>
     <v-content>
         <router-view/>
