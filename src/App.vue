@@ -23,7 +23,7 @@ export default {
   },async mounted () {
         const dirURL = "/record/"
         const videos =  await Promise.all((await (await fetch(dirURL + "/list.json")).json())
-                        .filter(i => i.format.format_name === 'flv' && i.format.size != 0)
+                        .filter(i => "format" in i && i.format.format_name === 'flv' && i.format.size != 0)
                         .map(async i => {
                             const filename = i.format.filename.split("/").reverse()[0];
                             return {
