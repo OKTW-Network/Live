@@ -1,6 +1,6 @@
 <template>
   <div v-bind:style="EighteenPlusWarningClassObject" id="EighteenPlusWarning">
-    <div id="EighteenPlusWarningLogo"></div>
+    <img src="img/18.svg" id="EighteenPlusWarningLogo"></img>
     <button v-bind:style="AcceptButtonClassObject" class="EighteenPlusWarningButton" id="AcceptButton" @click="Accept">接受 Accept</button>
     <button class="EighteenPlusWarningButton" id="DeclinedButton" @click="Declined">拒絕 Declined</button>
   </div>
