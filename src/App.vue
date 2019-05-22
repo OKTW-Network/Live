@@ -1,22 +1,25 @@
 <template>
   <div id="app">
-    <Player v-bind:video="data.playing"/>
+    <EighteenPlusWarning/>
+    <RecordPlayer v-bind:video="data.playing"/>
     <Divider />
     <Streamer v-on:click="streamClicked" v-for="streamer in data.streamers" v-bind:streamer="streamer" :key="streamer.name"/>
   </div>
 </template>
 
 <script>
-import Player from './components/Player.vue'
+import RecordPlayer from './components/RecordPlayer.vue'
 import Divider from './components/Divider.vue'
 import Streamer from './components/Streamer.vue'
+import EighteenPlusWarning from './components/EighteenPlusWarning.vue'
 
 export default {
   name: 'app',
   components: {
-    Player,
+    RecordPlayer,
     Streamer,
-    Divider
+    Divider,
+    EighteenPlusWarning
   },async mounted () {
         const indexURL = "/record/"
         const videos =  await Promise.all((await (await fetch(indexURL)).json())
