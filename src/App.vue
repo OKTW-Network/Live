@@ -21,17 +21,17 @@ export default {
     Divider,
     EighteenPlusWarning
   },async mounted () {
-        const indexURL = "/record/"
-        const videos =  await Promise.all((await (await fetch(indexURL)).json())
-                        .filter(i => i.type === 'file' && i.size !== 0 && i.name.indexOf('.mp4') !== -1)
+        const dirURL = "/record/"
+        const videos =  await Promise.all((await (await fetch(dirURL + "/list.json")).json())
+                        .filter(i => i.format.format_name === 'flv' && i.format.size != 0)
                         .map(async i => {
-                            const metadata = await (await fetch(indexURL + i.name.substring(0, i.name.length - 3) + 'json')).json()
+                            const filename = i.format.filename.split("/").reverse()[0];
                             return {
-                                streamer: i.name.substring(0, i.name.length - 15),
-                                publishTime: new Date(parseInt(i.name.substring(i.name.length - 14, i.name.length - 4)) * 1000),
-                                thumbSrc: indexURL + i.name.substring(0, i.name.length - 3) + 'png',
-                                duration: metadata.format.duration,
-                                src: indexURL + i.name
+                                streamer: filename.substring(0, filename.length - 15),
+                                publishTime: new Date(parseInt(filename.substring(filename.length - 14, filename.length - 4)) * 1000),
+                                thumbSrc: dirURL + filename.substring(0, filename.length - 3) + 'png',
+                                duration: i.format.duration,
+                                src: dirURL + filename.substring(0, filename.length - 3) + 'mp4'
                             }
                         }))
 
