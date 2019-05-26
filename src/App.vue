@@ -3,7 +3,7 @@
     <EighteenPlusWarning/>
     <RecordPlayer v-bind:video="data.playing"/>
     <Divider />
-    <Streamer v-on:click="streamClicked" v-for="streamer in data.streamers" v-bind:streamer="streamer" :key="streamer.name"/>
+    <Streamer v-on:click="streamerClicked" v-for="streamer in data.streamers" v-bind:streamer="streamer" :key="streamer.name"/>
   </div>
 </template>
 
@@ -40,11 +40,11 @@ export default {
         var streamers = {};
         videos.forEach((video) => {
             if (video.streamer in streamers) {
-                streamers[video.streamer].records.push(video)
+                streamers[video.streamer].unloadRecords.push(video)
             } else {
                 streamers[video.streamer] = {
                     name: video.streamer,
-                    records: [video]
+                    unloadRecords: [video]
                 }
             }
         })
@@ -54,12 +54,14 @@ export default {
         }
   },
   methods: {
-      streamClicked(type,eventData){
+      streamerClicked(type,eventData){
           if(type === "record"){
             this.data.playing.src = eventData.src;
             this.data.playing.title = eventData.streamer.name;
             this.data.playing.subtitle = eventData.publishTimeText;
             window.scrollTo(0,0);
+          }else if(type === "streamer"){
+            this.data.streamer[eventData.streamer.name].unloadRecords = this.data.streamer[eventData.streamer.name].records;
           }
       }
   },data() {
