@@ -44,7 +44,8 @@ export default {
             } else {
                 streamers[video.streamer] = {
                     name: video.streamer,
-                    unloadRecords: [video]
+                    unloadRecords: [video],
+                    records: []
                 }
             }
         })
@@ -61,7 +62,10 @@ export default {
             this.data.playing.subtitle = eventData.publishTimeText;
             window.scrollTo(0,0);
           }else if(type === "streamer"){
-            this.data.streamers[eventData.streamer.name].records = this.data.streamers[eventData.streamer.name].unloadRecords;
+            this.data.streamers[eventData.streamer.name].records = []
+            this.data.streamers[eventData.streamer.name].unloadRecords.forEach(record => {
+              this.data.streamers[eventData.streamer.name].records.push(record)
+            })
           }
       }
   },data() {
