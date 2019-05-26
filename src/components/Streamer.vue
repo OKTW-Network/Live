@@ -1,8 +1,8 @@
 <template>
     <div class="StreamerDiv">
+        <Divider/>
         <h2 class="StreamerName" @click="emitClick('streamer',{})">{{streamer.name}}</h2>
         <RecordList v-on:click="emitClick" v-bind:records="streamer.records"/>
-    <Divider/>
     </div>
 </template>
 

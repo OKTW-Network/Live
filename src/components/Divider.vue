@@ -11,7 +11,7 @@ export default {
 
 <style>
     #Divider{
-        width: 80%;
+        width: 100%;
         height: 2px;
         background: #111;
         margin-bottom: 10px;

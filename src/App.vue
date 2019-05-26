@@ -2,7 +2,6 @@
   <div id="app">
     <EighteenPlusWarning/>
     <RecordPlayer v-bind:video="data.playing"/>
-    <Divider />
     <Streamer v-on:click="streamerClicked" v-for="streamer in data.streamers" v-bind:streamer="streamer" :key="streamer.name"/>
   </div>
 </template>
