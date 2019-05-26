@@ -62,10 +62,7 @@ export default {
             this.data.playing.subtitle = eventData.publishTimeText;
             window.scrollTo(0,0);
           }else if(type === "streamer"){
-            this.data.streamers[eventData.streamer.name].records = []
-            this.data.streamers[eventData.streamer.name].unloadRecords.forEach(record => {
-              this.data.streamers[eventData.streamer.name].records.push(record)
-            })
+            eventData.streamer.records = eventData.streamer.unloadRecords
           }
       }
   },data() {
@@ -73,7 +70,7 @@ export default {
       data : {
         "playing" : {
           "src" : "",
-          "title" : "Select a video , pls.",
+          "title" : "Select streamer to get records , pls.",
           "subtitle" : "Plssssssssssss"
         },
         "streamers" : [

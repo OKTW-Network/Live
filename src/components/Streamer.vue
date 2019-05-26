@@ -1,6 +1,6 @@
 <template>
     <div class="StreamerDiv">
-        <h2 @click="emitClick('streamer',{})">{{streamer.name}}</h2>
+        <h2 class="StreamerName" @click="emitClick('streamer',{})">{{streamer.name}}</h2>
         <RecordList v-on:click="emitClick" v-bind:records="streamer.records"/>
     <Divider/>
     </div>
@@ -35,5 +35,8 @@ export default {
         justify-content: flex-start;
         align-items: flex-start;
         flex-direction: column;
+    }
+    .StreamerName{
+        cursor: pointer;
     }
 </style>
