@@ -59,7 +59,11 @@ export default {
             this.data.playing.subtitle = eventData.publishTimeText;
             window.scrollTo(0,0);
           }else if(type === "streamer"){
-            eventData.streamer.records = eventData.streamer.unloadRecords
+            if(eventData.streamer.records.length == 0){
+              eventData.streamer.records = eventData.streamer.unloadRecords
+            }else{
+              eventData.streamer.records = []
+            }
           }
       }
   },data() {
