@@ -35,7 +35,8 @@ export default {
     }
     .RecordListDiv::-webkit-scrollbar
     {
-        height: 12px;
+        height: 20px;
+        border-radius: 10px;
         background-color: #F5F5F5;
     }
     .RecordListDiv::-webkit-scrollbar-track
