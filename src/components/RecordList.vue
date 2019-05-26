@@ -26,7 +26,7 @@ export default {
 <style>
     .RecordListDiv{
         width: 100%;
-        overflow-x: scroll;
+        overflow-x: auto;
         overflow-y: hidden;
         display: flex;
         justify-content: flex-start;
