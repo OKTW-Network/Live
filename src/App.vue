@@ -61,7 +61,7 @@ export default {
             this.data.playing.subtitle = eventData.publishTimeText;
             window.scrollTo(0,0);
           }else if(type === "streamer"){
-            this.data.streamer[eventData.streamer.name].unloadRecords = this.data.streamer[eventData.streamer.name].records;
+            this.data.streamers[eventData.streamer.name].records = this.data.streamers[eventData.streamer.name].unloadRecords;
           }
       }
   },data() {
