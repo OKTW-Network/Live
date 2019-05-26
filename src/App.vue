@@ -8,7 +8,6 @@
 
 <script>
 import RecordPlayer from './components/RecordPlayer.vue'
-import Divider from './components/Divider.vue'
 import Streamer from './components/Streamer.vue'
 import EighteenPlusWarning from './components/EighteenPlusWarning.vue'
 
@@ -17,7 +16,6 @@ export default {
   components: {
     RecordPlayer,
     Streamer,
-    Divider,
     EighteenPlusWarning
   },async mounted () {
         const dirURL = "/record/"
