@@ -33,22 +33,19 @@ export default {
         align-items: flex-start;
         flex-direction: row;
     }
-
-    .RecordListDiv::-webkit-scrollbar-track
-    {
-    	border-radius: 10px;
-    	background-color: #F5F5F5;
-    }
-
     .RecordListDiv::-webkit-scrollbar
     {
-    	height: 12px;
-    	background-color: #F5F5F5;
+        height: 12px;
+        background-color: #F5F5F5;
     }
-
+    .RecordListDiv::-webkit-scrollbar-track
+    {
+        border-radius: 10px;
+        background-color: #F5F5F5;
+    }
     .RecordListDiv::-webkit-scrollbar-thumb
     {
-    	border-radius: 10px;
-    	background-color: #555;
+        border-radius: 10px;
+        background-color: #555;
     }
 </style>
