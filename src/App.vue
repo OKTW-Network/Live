@@ -82,8 +82,8 @@ export default {
             }
           }else if(type === "streamerLive"){
             this.data.nowPlayer = "live";
-            this.data.recordPlayer.title = eventData.streamer.name;
-            this.data.recordPlayer.src = (eventData.streamer.unloadRecords.length === 0) ? `/live/live.m3u8` : `/live/${eventData.streamer.name}.m3u8`;
+            this.data.livePlayer.title = eventData.streamer.name;
+            this.data.livePlayer.src = (eventData.streamer.unloadRecords.length === 0) ? `/live/live.m3u8` : `/live/${eventData.streamer.name}.m3u8`;
             window.scrollTo(0,0);
           }
       }
