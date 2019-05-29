@@ -15,25 +15,28 @@ export default {
     live : Object
   },
   watch: {
-    'live': (newVal,oldVal) => {
-        console.log("HLS.JS source changed.")
-        
-        const url = this.live.src;
-        const player = document.getElementById('LivePlayer')
-        
-        if(Hls.isSupported()) {
-            this.liveHLS.destroy();
-            
-            this.liveHLS = new Hls({liveDurationInfinity: true})
-            this.liveHLS.loadSource(url)
-            this.liveHLS.attachMedia(player)
-            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play())
-        }
-        // Fuck you apple
-        else if (player.canPlayType('application/vnd.apple.mpegurl')) {
-            player.src = url
-            player.addEventListener('loadedmetadata', () => player.play())
-        }
+    'live': {
+        handler(newVal) {
+            console.log("HLS.JS source changed.")
+
+            const url = this.live.src;
+            const player = document.getElementById('LivePlayer')
+
+            if(Hls.isSupported()) {
+                this.liveHLS.destroy();
+
+                this.liveHLS = new Hls({liveDurationInfinity: true})
+                this.liveHLS.loadSource(url)
+                this.liveHLS.attachMedia(player)
+                this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play())
+            }
+            // Fuck you apple
+            else if (player.canPlayType('application/vnd.apple.mpegurl')) {
+                player.src = url
+                player.addEventListener('loadedmetadata', () => player.play())
+            }
+        },
+        deep: true
     }
   },
   mounted() {
