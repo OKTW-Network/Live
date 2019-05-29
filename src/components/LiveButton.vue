@@ -1,11 +1,18 @@
 <template>
-<div class="LiveButton"><span class="LiveButtonCircle">●</span>&nbsp;&nbsp;Live</div>
+    <div class="LiveButton" @click="emitClick" >
+        <span class="LiveButtonCircle">●</span>&nbsp;&nbsp;Live
+    </div>
 </template>
 
 <script>
 export default {
   name: 'LiveButton',
-  props:{}
+  props:{},
+  methods: {
+      emitClick(){
+          this.$emit('click', 'streamerLive', {}) 
+      }
+  }
 }
 </script>
 

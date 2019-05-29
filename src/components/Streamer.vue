@@ -3,7 +3,7 @@
         <Divider/>
         <div class="StreamerTitle">
             <h2 class="StreamerName" @click="emitClick('streamer',{})">{{streamer.name}}</h2>
-            <LiveButton v-if="streamer.live" @click="emitClick('streamerLive',{})"/>
+            <LiveButton v-if="streamer.live" v-on:click="emitClick"/>
         </div>
         <RecordList v-on:click="emitClick" v-bind:records="streamer.records"/>
     </div>
