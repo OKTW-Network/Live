@@ -43,11 +43,11 @@ export default {
             if (video.streamer in streamers) {
                 streamers[video.streamer].unloadRecords.push(video)
             } else {
-                await streamers[video.streamer] = {
+                 streamers[video.streamer] = await {
                     name: video.streamer,
                     unloadRecords: [video],
                     records: [],
-                    live: (await fetch(`/live/${eventData.streamer.name}.m3u8`)).ok
+                    live: (await fetch(`/live/${video.streamer}.m3u8`)).ok
                 }
             }
         })
