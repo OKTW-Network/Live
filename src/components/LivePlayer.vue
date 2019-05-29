@@ -24,11 +24,12 @@ export default {
 
             if(Hls.isSupported()) {
                 this.liveHLS.destroy();
-
-                this.liveHLS = new Hls({liveDurationInfinity: true})
-                this.liveHLS.loadSource(url)
-                this.liveHLS.attachMedia(player)
-                this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play())
+                setTimeout(()=>{
+                    this.liveHLS = new Hls({liveDurationInfinity: true})
+                    this.liveHLS.loadSource(url)
+                    this.liveHLS.attachMedia(player)
+                    this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play())
+                },100)
             }
             // Fuck you apple
             else if (player.canPlayType('application/vnd.apple.mpegurl')) {
