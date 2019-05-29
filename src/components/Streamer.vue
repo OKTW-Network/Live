@@ -43,11 +43,12 @@ export default {
     }
     .StreamerName{
         cursor: pointer;
+        margin-right: 1em;
     }
     .StreamerTitle{
         display: flex;
         justify-content: flex-start;
-        align-items: flex-start;
+        align-items: center;
         flex-direction: row;
     }
 </style>

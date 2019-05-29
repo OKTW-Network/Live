@@ -57,8 +57,8 @@ export default {
               if (response.status == 200) {
                 streamers[streamerName].live = true;
               }
-            }).catch(function(err) {
-                streamers[streamerName].live = false;
+            }).catch(function(err) { // eslint-disable-line
+                streamers[streamerName].live = false; 
             });
             this.data.streamers.push(streamers[streamerName])
         }
@@ -93,7 +93,7 @@ export default {
         "recordPlayer" : {
           "src" : "",
           "title" : "Select streamer to get records , pls.",
-          "subtitle" : "Plssssssssssss"
+          "subtitle" : ""
         },
         "livePlayer" : {
           "src" : liveURL,
