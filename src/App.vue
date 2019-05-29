@@ -52,12 +52,20 @@ export default {
         })
 
         for(var streamerName in streamers){
+            fetch("/live/" + streamerName + ".m3u8").then(function(response) {
+              if (response.status == 200) {
+                streamers[streamerName].live = true;
+              }
+            }).catch(function(err) {
+                streamers[streamerName].live = false;
+            });
             this.data.streamers.push(streamers[streamerName])
         }
   },
   methods: {
       streamerClicked(type,eventData){
           if(type === "record"){
+            this.data.nowPlayer = "record";
             this.data.recordPlayer.src = eventData.src;
             this.data.recordPlayer.title = eventData.streamer.name;
             this.data.recordPlayer.subtitle = eventData.publishTimeText;
@@ -68,6 +76,10 @@ export default {
             }else{
               eventData.streamer.records = []
             }
+          }else if(type === "streamerLive"){
+            this.data.nowPlayer = "live";
+            this.data.recordPlayer.title = eventData.streamer.name;
+            this.data.recordPlayer.src = `/live/${eventData.streamer.name}.m3u8`;
           }
       }
   },data() {

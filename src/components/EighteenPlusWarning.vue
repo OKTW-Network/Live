@@ -70,7 +70,7 @@ export default {
     cursor:pointer;
     transition:0.2s;
 
-    margin:0.5em;
+    margin-top:1em;
     border-radius:10px;
 
     font-size:40px;
