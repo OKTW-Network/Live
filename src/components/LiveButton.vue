@@ -11,10 +11,21 @@ export default {
 
 <style>
     .LiveButton{
+        cursor: pointer;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
         width: 100px;
-        height: 20px;
+        height: 30px;
+
         background: #222;
-        color:white;
+        color: #fff;
+
+        border-radius: 10px;
+
         animation-name: LiveButton;
         animation-duration: 2s;
         animation-iteration-count: infinite;
@@ -24,13 +35,13 @@ export default {
     }
     @keyframes LiveButton{
         0% {
-            border: 3px solid transparent;
+            border: 2px solid transparent;
         }
         50%{
-            border: 3px solid #ff4444;
+            border: 2px solid red;
         }
         100%{
-            border: 3px solid transparent;
+            border: 2px solid transparent;
         }
     }
 </style>

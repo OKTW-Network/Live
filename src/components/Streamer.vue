@@ -1,8 +1,10 @@
 <template>
     <div class="StreamerDiv">
         <Divider/>
-        <h2 class="StreamerName" @click="emitClick('streamer',{})">{{streamer.name}}</h2>
-        <LiveButton v-if="streamer.live" @click="emitClick('streamerLive',{})"/>
+        <div class="StreamerTitle">
+            <h2 class="StreamerName" @click="emitClick('streamer',{})">{{streamer.name}}</h2>
+            <LiveButton v-if="streamer.live" @click="emitClick('streamerLive',{})"/>
+        </div>
         <RecordList v-on:click="emitClick" v-bind:records="streamer.records"/>
     </div>
 </template>
@@ -41,5 +43,11 @@ export default {
     }
     .StreamerName{
         cursor: pointer;
+    }
+    .StreamerTitle{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: row;
     }
 </style>

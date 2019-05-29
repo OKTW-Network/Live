@@ -4,6 +4,7 @@
     <RecordPlayer v-if="data.nowPlayer === 'record' " v-bind:video="data.recordPlayer"/>
     <LivePlayer v-if="data.nowPlayer === 'live' " v-bind:live="data.livePlayer"/>
     <Streamer v-on:click="streamerClicked" v-for="streamer in data.streamers" v-bind:streamer="streamer" :key="streamer.name"/>
+    
   </div>
 </template>
 
@@ -80,6 +81,7 @@ export default {
             this.data.nowPlayer = "live";
             this.data.recordPlayer.title = eventData.streamer.name;
             this.data.recordPlayer.src = `/live/${eventData.streamer.name}.m3u8`;
+            window.scrollTo(0,0);
           }
       }
   },data() {
@@ -116,6 +118,7 @@ export default {
 }
 body{
     padding: 20px;
+    padding-bottom:100px;
     background: #222;
 }
 #app {
