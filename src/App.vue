@@ -39,11 +39,11 @@ export default {
         videos.sort((a, b) => a.publishTime > b.publishTime ? -1 : a.publishTime < b.publishTime ? 1 : 0)
 
         var streamers = {};
-        videos.forEach(async (video) => {
+        videos.forEach((video) => {
             if (video.streamer in streamers) {
                 streamers[video.streamer].unloadRecords.push(video)
             } else {
-                 streamers[video.streamer] = await {
+                 streamers[video.streamer] = {
                     name: video.streamer,
                     unloadRecords: [video],
                     records: [],
