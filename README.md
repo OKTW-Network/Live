@@ -1,4 +1,4 @@
-# records-frontend
+# Live
 
 ## Project setup
 ```
