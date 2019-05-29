@@ -53,14 +53,16 @@ export default {
         })
 
         for(var streamerName in streamers){
+            this.data.streamers.push(streamers[streamerName])
             fetch("/live/" + streamerName + ".m3u8").then(function(response) {
               if (response.status == 200) {
-                streamers[streamerName].live = true;
+                this.data.streamers.forEach(streamer => {
+                  if(streamer.name == streamerName){
+                    streamer.live = true;
+                  }
+                })
               }
-            }).catch(function(err) { // eslint-disable-line
-                streamers[streamerName].live = false; 
-            });
-            this.data.streamers.push(streamers[streamerName])
+            }).catch(err => {}); // eslint-disable-line
         }
   },
   methods: {

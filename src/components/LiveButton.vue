@@ -1,5 +1,5 @@
 <template>
-<div class="LiveButton"><span class="LiveButtonCircle">●</span>&nbsp;Live</div>
+<div class="LiveButton"><span class="LiveButtonCircle">●</span>&nbsp;&nbsp;Live</div>
 </template>
 
 <script>
@@ -12,13 +12,13 @@ export default {
 <style>
     .LiveButton{
         cursor: pointer;
-        
+
         display: flex;
         justify-content: center;
         align-items: center;
         text-align: center;
 
-        width: 100px;
+        width: 80px;
         height: 30px;
 
         background: #222;
