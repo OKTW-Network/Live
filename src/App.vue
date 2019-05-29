@@ -47,12 +47,13 @@ export default {
                     name: video.streamer,
                     unloadRecords: [video],
                     records: [],
-                    live: (await fetch(`/live/${video.streamer}.m3u8`)).ok
+                    live: false
                 }
             }
         })
 
         for(var streamerName in streamers){
+            streamers[streamerName].live = (await fetch(`/live/${streamerName}.m3u8`)).ok
             this.data.streamers.push(streamers[streamerName])
         }
   },
