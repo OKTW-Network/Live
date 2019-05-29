@@ -47,22 +47,13 @@ export default {
                     name: video.streamer,
                     unloadRecords: [video],
                     records: [],
-                    live:false
+                    live: (await fetch(dirURL + "/list.json")).ok
                 }
             }
         })
 
         for(var streamerName in streamers){
             this.data.streamers.push(streamers[streamerName])
-            fetch("/live/" + streamerName + ".m3u8").then(function(response) {
-              if (response.status == 200) {
-                this.data.streamers.forEach(streamer => {
-                  if(streamer.name == streamerName){
-                    streamer.live = true;
-                  }
-                })
-              }
-            }).catch(err => {}); // eslint-disable-line
         }
   },
   methods: {
