@@ -1,12 +1,14 @@
 <template>
   <div id="app">
     <EighteenPlusWarning/>
-    <RecordPlayer v-bind:video="data.playing"/>
+    <RecordPlayer v-if="data.nowPlayer === 'record' " v-bind:video="data.recordPlayer"/>
+    <LivePlayer v-if="data.nowPlayer === 'live' " v-bind:live="data.livePlayer"/>
     <Streamer v-on:click="streamerClicked" v-for="streamer in data.streamers" v-bind:streamer="streamer" :key="streamer.name"/>
   </div>
 </template>
 
 <script>
+import LivePlayer from './components/LivePlayer.vue'
 import RecordPlayer from './components/RecordPlayer.vue'
 import Streamer from './components/Streamer.vue'
 import EighteenPlusWarning from './components/EighteenPlusWarning.vue'
@@ -14,6 +16,7 @@ import EighteenPlusWarning from './components/EighteenPlusWarning.vue'
 export default {
   name: 'app',
   components: {
+    LivePlayer,
     RecordPlayer,
     Streamer,
     EighteenPlusWarning
@@ -42,7 +45,8 @@ export default {
                 streamers[video.streamer] = {
                     name: video.streamer,
                     unloadRecords: [video],
-                    records: []
+                    records: [],
+                    live:false
                 }
             }
         })
@@ -54,9 +58,9 @@ export default {
   methods: {
       streamerClicked(type,eventData){
           if(type === "record"){
-            this.data.playing.src = eventData.src;
-            this.data.playing.title = eventData.streamer.name;
-            this.data.playing.subtitle = eventData.publishTimeText;
+            this.data.recordPlayer.src = eventData.src;
+            this.data.recordPlayer.title = eventData.streamer.name;
+            this.data.recordPlayer.subtitle = eventData.publishTimeText;
             window.scrollTo(0,0);
           }else if(type === "streamer"){
             if(eventData.streamer.records.length == 0){
@@ -67,12 +71,20 @@ export default {
           }
       }
   },data() {
+    var liveURL = (window.location.hash) ? `/live/${window.location.hash.substring(1)}.m3u8` : '/live/live.m3u8';
+    var liveName = (window.location.hash) ? `${window.location.hash.substring(1)}` : 'OKTW Live';
     return {
       data : {
-        "playing" : {
+        "nowPlayer" : "live",
+        "recordPlayer" : {
           "src" : "",
           "title" : "Select streamer to get records , pls.",
           "subtitle" : "Plssssssssssss"
+        },
+        "livePlayer" : {
+          "src" : liveURL,
+          "title" : liveName,
+          "subtitle" : ""
         },
         "streamers" : [
           

@@ -2,6 +2,7 @@
     <div class="StreamerDiv">
         <Divider/>
         <h2 class="StreamerName" @click="emitClick('streamer',{})">{{streamer.name}}</h2>
+        <LiveButton v-if="streamer.live" @click="emitClick('streamerLive',{})"/>
         <RecordList v-on:click="emitClick" v-bind:records="streamer.records"/>
     </div>
 </template>
@@ -9,12 +10,14 @@
 <script>
 import RecordList from './RecordList.vue'
 import Divider from './Divider.vue'
+import LiveButton from './LiveButton.vue'
 
 export default {
   name: 'Streamer',
   components: {
       RecordList,
-      Divider
+      Divider,
+      LiveButton
   },
   methods: {
       emitClick(type,data){
