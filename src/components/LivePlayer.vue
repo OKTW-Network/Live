@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 <template>
     <div class="LivePlayerDiv">
         <video id="LivePlayer" controls class="LivePlayer" v-bind:src="live.src"/>
@@ -13,15 +15,16 @@ export default {
     live : Object
   },
   watch: {
-    'live': (newVal,oldVal) => { // eslint-disable-line
-        console.log("HLS.JS source changed.") // eslint-disable-line
+    'live': (newVal,oldVal) => {
+        console.log("HLS.JS source changed.")
+        
+        const url = this.live.src;
+        const player = document.getElementById('LivePlayer')
+        
         if(Hls.isSupported()) {
             this.liveHLS.destroy();
-            this.liveHLS = new Hls({liveDurationInfinity: true}) // eslint-disable-line
             
-            const url = this.live.src;
-            const player = document.getElementById('LivePlayer')
-
+            this.liveHLS = new Hls({liveDurationInfinity: true})
             this.liveHLS.loadSource(url)
             this.liveHLS.attachMedia(player)
             this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play())
