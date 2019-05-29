@@ -56,6 +56,15 @@ export default {
             streamers[streamerName].live = (await fetch(`/live/${streamerName}.m3u8`)).ok
             this.data.streamers.push(streamers[streamerName])
         }
+        
+        if((await fetch(`/live/live.m3u8`)).ok){
+          this.data.streamers.unshift({
+              name: "OKTW Live",
+              unloadRecords: [],
+              records: [],
+              live: true
+          })
+        }
   },
   methods: {
       streamerClicked(type,eventData){
@@ -74,7 +83,7 @@ export default {
           }else if(type === "streamerLive"){
             this.data.nowPlayer = "live";
             this.data.recordPlayer.title = eventData.streamer.name;
-            this.data.recordPlayer.src = `/live/${eventData.streamer.name}.m3u8`;
+            this.data.recordPlayer.src = (eventData.streamer.unloadRecords.length === 0) `/live/live.m3u8` ? `/live/${eventData.streamer.name}.m3u8`;
             window.scrollTo(0,0);
           }
       }
