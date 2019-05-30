@@ -47,10 +47,11 @@ export default {
         cursor: pointer;
         margin-right: 1em;
     }
-    .StreamerName.triangle {
+    .StreamerName .triangle {
         transition-duration: 1s;
+        display: inline-block;
     }
-    .StreamerName.triangle.rotate {
+    .StreamerName .triangle .rotate {
         transform: rotate(90deg)
     }
     .StreamerTitle{
