@@ -48,7 +48,7 @@ export default {
         margin-right: 1em;
     }
     .StreamerName .triangle {
-        transition-duration: 1s;
+        transition-duration: 250ms;
         display: inline-block;
     }
     .StreamerName .triangle.rotate {
