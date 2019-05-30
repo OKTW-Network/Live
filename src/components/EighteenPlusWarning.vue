@@ -1,123 +1,128 @@
 <template>
   <div v-bind:style="EighteenPlusWarningClassObject" id="EighteenPlusWarning">
     <img src="img/18.svg" id="EighteenPlusWarningLogo">
-    <button v-bind:style="AcceptButtonClassObject" class="EighteenPlusWarningButton" id="AcceptButton" @click="Accept">進入 Enter</button>
+    <button
+      v-bind:style="AcceptButtonClassObject"
+      class="EighteenPlusWarningButton"
+      id="AcceptButton"
+      @click="Accept"
+    >進入 Enter</button>
     <button class="EighteenPlusWarningButton" id="DeclinedButton" @click="Declined">母湯 Nope</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'EighteenPlusWarning',
+  name: "EighteenPlusWarning",
   methods: {
-    Accept(){
-      if(Math.round(this.data.acceptScale * 10) != 10){
+    Accept() {
+      if (Math.round(this.data.acceptScale * 10) != 10) {
         this.data.acceptScale -= 0.2;
-      }else{
+      } else {
         this.data.accepted = true;
       }
     },
-    Declined(){
+    Declined() {
       this.data.acceptScale += 0.2;
     }
   },
-  data(){
+  data() {
     return {
-      data : {
-        acceptScale : 1,
+      data: {
+        acceptScale: 1,
         accepted: false
       }
-    }
+    };
   },
   computed: {
-    AcceptButtonClassObject: function () {
+    AcceptButtonClassObject: function() {
       return {
-        'transform': `scale(${this.data.acceptScale})`
-      }
+        transform: `scale(${this.data.acceptScale})`
+      };
     },
-    EighteenPlusWarningClassObject: function () {
+    EighteenPlusWarningClassObject: function() {
       return {
-        'height': this.data.accepted ? "0%" : "100%",
-        'top': this.data.accepted ? "-100%" : "0",
-      }
+        height: this.data.accepted ? "0%" : "100%",
+        top: this.data.accepted ? "-100%" : "0"
+      };
     }
   },
-  props:{}
-}
+  props: {}
+};
 </script>
 
 <style>
-  #EighteenPlusWarning{
-    width:100%;
-    height:100%;
+#EighteenPlusWarning {
+  width: 100%;
+  height: 100%;
 
-    background:#000;
-    
-    transition:1s;
-    z-index:999;
+  background: #000;
 
-    display:flex;
-    justify-content:center;
-    align-items: center;
-    flex-direction: column;
+  transition: 1s;
+  z-index: 999;
 
-    position:fixed;
-    top:0;
-    left:0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.EighteenPlusWarningButton {
+  cursor: pointer;
+  transition: 0.2s;
+
+  margin-top: 1em;
+  border-radius: 10px;
+
+  font-size: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#AcceptButton {
+  background: #00cc66;
+  color: black;
+}
+
+#DeclinedButton {
+  background: #ff531a;
+  color: black;
+}
+
+@media (min-width: 768px) {
+  #EighteenPlusWarningLogo {
+    width: 500px;
   }
-  
-  .EighteenPlusWarningButton{
-    cursor:pointer;
-    transition:0.2s;
 
-    margin-top:1em;
-    border-radius:10px;
-
-    font-size:40px;
-
-    display:flex;
-    justify-content:center;
-    align-items: center;
+  #AcceptButton {
+    width: 500px;
+    height: 70px;
   }
 
-  #AcceptButton{
-    background:#00cc66;
-    color:black;
+  #DeclinedButton {
+    width: 500px;
+    height: 70px;
   }
-  
-  #DeclinedButton{
-    background:#ff531a;
-    color:black;
+}
+@media (max-width: 768px) {
+  #EighteenPlusWarningLogo {
+    width: 80vw;
   }
 
-  @media (min-width: 768px) { 
-    #EighteenPlusWarningLogo{
-      width:500px;
-    }
-
-    #AcceptButton{
-      width:500px;
-      height:70px;
-    }
-
-    #DeclinedButton{
-      width:500px;
-      height:70px;
-    }
+  #AcceptButton {
+    width: 80vw;
+    height: 70px;
   }
-  @media (max-width: 768px) {
-    #EighteenPlusWarningLogo{
-      width:80vw;
-    }
 
-    #AcceptButton{
-      width:80vw;
-      height:70px;
-    }
-
-    #DeclinedButton{
-      width:80vw;
-      height:70px;
-    }
+  #DeclinedButton {
+    width: 80vw;
+    height: 70px;
   }
+}
 </style>
