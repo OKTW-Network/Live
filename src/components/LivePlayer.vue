@@ -92,10 +92,6 @@ export default {
     }
   },
   mounted() {
-    const wsServer = "wss://live.oktw.one/ws";
-    const ws = new WebSocket(wsServer);
-    this.ws = ws;
-
     const player = document.getElementById("LivePlayer");
     const url = this.live.src;
 
@@ -116,27 +112,39 @@ export default {
       this.username = localStorage.username;
     }
 
-    ws.onopen = () => {
-      ws.send(JSON.stringify({ method: "setName", name: this.username }));
-      ws.send(
-        JSON.stringify({ method: "joinChannel", channelName: this.live.name })
-      );
-    };
+    function createWSConnection() {
+      const wsServer = "wss://live.oktw.one/ws";
+      const ws = new WebSocket(wsServer);
+      this.ws = ws;
 
-    ws.onmessage = e => {
-      const data = JSON.parse(e.data);
-      console.log(data); // eslint-disable-line
-      switch (data.type) {
-        case "channelData":
-          this.$emit("liveUpdate", data);
-          break;
-        case "bulletScreenMessage":
-          this.bulletScreens.push(data);
-          break;
-        default:
-          break;
-      }
-    };
+      ws.onopen = () => {
+        ws.send(JSON.stringify({ method: "setName", name: this.username }));
+        ws.send(
+          JSON.stringify({ method: "joinChannel", channelName: this.live.name })
+        );
+      };
+
+      ws.onmessage = e => {
+        const data = JSON.parse(e.data);
+        console.log(data); // eslint-disable-line
+        switch (data.type) {
+          case "channelData":
+            this.$emit("liveUpdate", data);
+            break;
+          case "bulletScreenMessage":
+            this.bulletScreens.push(data);
+            break;
+          default:
+            break;
+        }
+      };
+
+      ws.onclose = e => {
+        setTimeout(createWSConnection,2000);
+      };
+    }
+
+    createWSConnection();
   }
 };
 </script>
