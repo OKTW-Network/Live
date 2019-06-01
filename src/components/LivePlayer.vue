@@ -1,6 +1,6 @@
 <template>
   <div class="LivePlayerDiv">
-    <video id="LivePlayer" controls class="LivePlayer" v-bind:src="live.src"/>
+    <video id="LivePlayer" controls class="LivePlayer"  v-bind:src="live.src"/>
     <BulletScreenMessage
       v-for="bulletScreen in bulletScreens"
       v-bind:bulletScreen="bulletScreen"
@@ -20,7 +20,7 @@
         </h4>
         <h4>
           Bullet Screen :
-          <input id="BulletScreenMessage" ref="BulletScreenMessage" type="text">
+          <input id="BulletScreenMessage" ref="BulletScreenMessage" @keyup.enter="sendBulletScreen" type="text">
           <button id="BulletScreenButton" @click="sendBulletScreen">發送</button>
         </h4>
       </div>
@@ -126,7 +126,6 @@ export default {
 
       ws.onmessage = e => {
         const data = JSON.parse(e.data);
-        console.log(data); // eslint-disable-line
         switch (data.type) {
           case "channelData":
             that.$emit("liveUpdate", data);
