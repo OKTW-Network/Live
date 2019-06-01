@@ -2,7 +2,12 @@
   <div id="app">
     <EighteenPlusWarning/>
     <RecordPlayer v-if="data.nowPlayer === 'record' " v-bind:video="data.recordPlayer"/>
-    <LivePlayer v-if="data.nowPlayer === 'live' " v-bind:live="data.livePlayer"/>
+    <LivePlayer
+      v-if="data.nowPlayer === 'live' "
+      v-bind:live="data.livePlayer"
+      v-bind:liveChannel="data.liveChannel"
+      v-on:liveUpdate="liveUpdate"
+    />
     <Streamer
       v-on:click="streamerClicked"
       v-for="streamer in data.streamers"
@@ -88,6 +93,9 @@ export default {
     }
   },
   methods: {
+    liveUpdate(data) {
+      this.data.liveChannel = data;
+    },
     streamerClicked(type, eventData) {
       if (type === "record") {
         this.data.nowPlayer = "record";
@@ -104,6 +112,7 @@ export default {
       } else if (type === "streamerLive") {
         this.data.nowPlayer = "live";
         this.data.livePlayer.title = eventData.streamer.name;
+        this.data.livePlayer.name = eventData.streamer.name;
         this.data.livePlayer.src =
           eventData.streamer.unloadRecords.length === 0
             ? `/live/live.m3u8`
@@ -116,9 +125,12 @@ export default {
     var liveURL = window.location.hash
       ? `/live/${window.location.hash.substring(1)}.m3u8`
       : "/live/live.m3u8";
-    var liveName = window.location.hash
+    var liveTitle = window.location.hash
       ? `${window.location.hash.substring(1)}`
       : "OKTW Live";
+    var liveName = window.location.hash
+      ? `${window.location.hash.substring(1)}`
+      : "live";
     return {
       data: {
         nowPlayer: "live",
@@ -129,8 +141,12 @@ export default {
         },
         livePlayer: {
           src: liveURL,
-          title: liveName,
+          title: liveTitle,
+          name: liveName,
           subtitle: ""
+        },
+        liveChannel: {
+          nowViewerCount: 0
         },
         streamers: []
       }
