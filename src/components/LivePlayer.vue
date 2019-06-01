@@ -92,7 +92,7 @@ export default {
     }
   },
   mounted() {
-    const wsServer = "ws://live.oktw.one/ws";
+    const wsServer = "wss://live.oktw.one/ws";
     const ws = new WebSocket(wsServer);
     this.ws = ws;
 
