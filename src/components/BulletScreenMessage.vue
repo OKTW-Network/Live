@@ -14,16 +14,16 @@ export default {
       return(Math.floor(Math.random() * (max - min + 1) + min));
     }
       this.$refs.Message.style.top = getRandom(0, 80) + "%";
-      this.$refs.Message.style.left = "100%";
+      this.$refs.Message.style.left = "200%";
       this.$refs.Message.style.fontSize = (getRandom(10, 40) / 10) + "em";
-      this.$refs.Message.style.transition = "15s";
+      this.$refs.Message.style.transition = "30s";
       this.$refs.Message.style.whiteSpace = "nowrap";
       setTimeout(()=>{
-        this.$refs.Message.style.left = "-100%";
+        this.$refs.Message.style.left = "-200%";
       },100)
       setTimeout(()=>{
         this.$emit("deleteMessage",this.bulletScreen.uuid)
-      },15000)
+      },30000)
   }
 };
 </script>
