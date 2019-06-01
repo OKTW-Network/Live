@@ -112,15 +112,15 @@ export default {
       this.username = localStorage.username;
     }
 
-    function createWSConnection() {
+    function createWSConnection(that) {
       const wsServer = "wss://live.oktw.one/ws";
       const ws = new WebSocket(wsServer);
-      this.ws = ws;
+      that.ws = ws;
 
       ws.onopen = () => {
-        ws.send(JSON.stringify({ method: "setName", name: this.username }));
+        ws.send(JSON.stringify({ method: "setName", name: that.username }));
         ws.send(
-          JSON.stringify({ method: "joinChannel", channelName: this.live.name })
+          JSON.stringify({ method: "joinChannel", channelName: that.live.name })
         );
       };
 
@@ -129,10 +129,10 @@ export default {
         console.log(data); // eslint-disable-line
         switch (data.type) {
           case "channelData":
-            this.$emit("liveUpdate", data);
+            that.$emit("liveUpdate", data);
             break;
           case "bulletScreenMessage":
-            this.bulletScreens.push(data);
+            that.bulletScreens.push(data);
             break;
           default:
             break;
@@ -140,11 +140,11 @@ export default {
       };
 
       ws.onclose = e => {
-        setTimeout(createWSConnection,2000);
+        setTimeout(() => createWSConnection(that),2000);
       };
     }
 
-    createWSConnection();
+    createWSConnection(this);
   }
 };
 </script>
