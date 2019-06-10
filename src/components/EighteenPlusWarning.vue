@@ -66,6 +66,8 @@ export default {
   align-items: center;
   flex-direction: column;
 
+  overflow:auto;
+
   position: fixed;
   top: 0;
   left: 0;
