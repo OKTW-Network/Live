@@ -15,7 +15,7 @@ export default {
       var hash = this.data.nowPlayer == "live" ? "#Live/" : "#Record/"
       hash = hash + this.data.nowPlayer == "live" ? this.data["livePlayer"]["name"] : this.data["recordPlayer"]["src"];
       return(location.href + hash)
-      window.location.hash = hash;
+      window.location.hash = hash.substring(1);
     }
   }
 };
