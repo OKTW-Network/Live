@@ -8,6 +8,7 @@
       v-bind:liveChannel="data.liveChannel"
       v-on:liveUpdate="liveUpdate"
     />
+    <Share v-bind:data="data"/>
     <Streamer
       v-on:click="streamerClicked"
       v-for="streamer in data.streamers"
@@ -20,19 +21,23 @@
 <script>
 import LivePlayer from "./components/LivePlayer.vue";
 import RecordPlayer from "./components/RecordPlayer.vue";
+import Share from "./components/Share.vue";
 import Streamer from "./components/Streamer.vue";
 import EighteenPlusWarning from "./components/EighteenPlusWarning.vue";
+
+const dirURL = "/record/";
+const liveURL = "/live/";
 
 export default {
   name: "app",
   components: {
     LivePlayer,
     RecordPlayer,
+    Share,
     Streamer,
     EighteenPlusWarning
   },
   async mounted() {
-    const dirURL = "/record/";
     const videos = await Promise.all(
       (await (await fetch(dirURL + "/list.json")).json())
         .filter(
@@ -78,12 +83,12 @@ export default {
 
     for (var streamerName in streamers) {
       streamers[streamerName].live = (await fetch(
-        `/live/${streamerName}.m3u8`
+        `${liveURL}${streamerName}.m3u8`
       )).ok;
       this.data.streamers.push(streamers[streamerName]);
     }
 
-    if ((await fetch(`/live/live.m3u8`)).ok) {
+    if ((await fetch(`${liveURL}live.m3u8`)).ok) {
       this.data.streamers.unshift({
         name: "OKTW Live",
         unloadRecords: [],
@@ -115,41 +120,53 @@ export default {
         this.data.livePlayer.name = eventData.streamer.name;
         this.data.livePlayer.src =
           eventData.streamer.unloadRecords.length === 0
-            ? `/live/live.m3u8`
-            : `/live/${eventData.streamer.name}.m3u8`;
+            ? `${liveURL}live.m3u8`
+            : `${liveURL}${eventData.streamer.name}.m3u8`;
         window.scrollTo(0, 0);
       }
     }
   },
   data() {
-    var liveURL = window.location.hash
-      ? `/live/${window.location.hash.substring(1)}.m3u8`
-      : "/live/live.m3u8";
-    var liveTitle = window.location.hash
-      ? `${window.location.hash.substring(1)}`
-      : "OKTW Live";
-    var liveName = window.location.hash
-      ? `${window.location.hash.substring(1)}`
-      : "live";
+    var hashData = window.location.hash.substring(1).split("/");
+    var mode = "Record" in hashData ? "record" : "live";
+    var tmpData = {
+      nowPlayer: mode,
+      recordPlayer: {
+        src: "",
+        title: "Select streamer to get records , pls.",
+        subtitle: ""
+      },
+      livePlayer: {
+        src: "",
+        title: "",
+        name: "",
+        subtitle: ""
+      },
+      liveChannel: {
+        nowViewerCount: 0
+      },
+      streamers: []
+    };
+    if (tmpData["nowPlayer"] == "live") {
+      tmpData["livePlayer"]["src"] =
+        hashData.length == 2
+          ? `${liveURL}${hashData[1]}.m3u8`
+          : `${liveURL}live.m3u8`;
+      tmpData["livePlayer"]["title"] =
+        hashData.length == 2 ? `${hashData[1]}` : "OKTW Live";
+      tmpData["livePlayer"]["name"] =
+        hashData.length == 2 ? `${hashData[1]}` : "live";
+    } else {
+      tmpData["recordPlayer"]["src"] =
+        hashData.length == 2 ? `${dirURL}${hashData[1]}` : "";
+      tmpData["recordPlayer"]["title"] =
+        hashData.length == 2 ? `${dirURL}${hashData[1]}` : "";
+      tmpData["recordPlayer"]["subtitle"] =
+        hashData.length == 2 ? `${dirURL}${hashData[1]}` : "";
+    }
+    console.log(tmpData);
     return {
-      data: {
-        nowPlayer: "live",
-        recordPlayer: {
-          src: "",
-          title: "Select streamer to get records , pls.",
-          subtitle: ""
-        },
-        livePlayer: {
-          src: liveURL,
-          title: liveTitle,
-          name: liveName,
-          subtitle: ""
-        },
-        liveChannel: {
-          nowViewerCount: 0
-        },
-        streamers: []
-      }
+      data: tmpData
     };
   }
 };
