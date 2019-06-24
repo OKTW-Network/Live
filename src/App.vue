@@ -162,7 +162,7 @@ export default {
       tmpData["recordPlayer"]["title"] =
         hashData.length == 2 ? `${hashData[1].split(".")[0].split("-")[0]}` : "";
       tmpData["recordPlayer"]["subtitle"] =
-        hashData.length == 2 ? (a=>{var b=parseInt(a),c=Math.floor(b/3600),d=Math.floor((b-3600*c)/60),e=b-3600*c-60*d;return 10>c&&(c="0"+c),10>d&&(d="0"+d),10>e&&(e="0"+e),c+":"+d+":"+e})(`${hashData[1].split(".")[0].split("-")[1]}`) : "";
+        hashData.length == 2 ? (a=>{function b(a){return 1==a.toString().length?"0"+a:a}var c=new Date(1e3*parseInt(a));return`${b(c.getFullYear())}-${b(c.getMonth()+1)}-${b(c.getDate())} ${b(c.getHours())}:${b(c.getMinutes())}:${b(c.getSeconds())}`})(`${hashData[1].split(".")[0].split("-")[1]}`) : "";
     }
     console.log(tmpData);
     return {
