@@ -12,14 +12,15 @@ export default {
   props: { data: Object },
   computed: {
     shareLink() {
-      var hash = this.data.nowPlayer == "live" ? "#Live/" : "#Record/";
+      var hash = this.data.nowPlayer == "live" ? "#live/" : "#record/";
       hash =
         hash + this.data.nowPlayer == "live"
           ? this.data["livePlayer"]["name"]
           : this.data["recordPlayer"]["src"];
+        console.log(hash);
       window.location.hash =
         hash == "#" ? window.location.hash : hash.substring(1);
-      return location.href + hash;
+      return location.href;
     }
   }
 };

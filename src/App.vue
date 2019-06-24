@@ -128,7 +128,7 @@ export default {
   },
   data() {
     var hashData = window.location.hash.substring(1).split("/");
-    var mode = "Record" in hashData ? "record" : "live";
+    var mode = hashData.includes("record") ? "record" : "live";
     var tmpData = {
       nowPlayer: mode,
       recordPlayer: {
@@ -160,9 +160,9 @@ export default {
       tmpData["recordPlayer"]["src"] =
         hashData.length == 2 ? `${dirURL}${hashData[1]}` : "";
       tmpData["recordPlayer"]["title"] =
-        hashData.length == 2 ? `${dirURL}${hashData[1]}` : "";
+        hashData.length == 2 ? `${hashData[1].split(".")[0].split("-")[0]}` : "";
       tmpData["recordPlayer"]["subtitle"] =
-        hashData.length == 2 ? `${dirURL}${hashData[1]}` : "";
+        hashData.length == 2 ? (a=>{var b=parseInt(a),c=Math.floor(b/3600),d=Math.floor((b-3600*c)/60),e=b-3600*c-60*d;return 10>c&&(c="0"+c),10>d&&(d="0"+d),10>e&&(e="0"+e),c+":"+d+":"+e})(`${hashData[1].split(".")[0].split("-")[1]}`) : "";
     }
     console.log(tmpData);
     return {
