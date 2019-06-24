@@ -2,7 +2,7 @@
   <div id="Share">
     Link :
     <input id="ShareField" v-model="shareLink">
-    <button id="CopyButton">Copy</button>
+    <button id="CopyButton" @click="shareCopy">Copy</button>
   </div>
 </template>
 
@@ -10,6 +10,20 @@
 export default {
   name: "Divider",
   props: { data: Object },
+  methods: {
+    shareCopy() {
+      document.querySelector("#ShareField").select();
+      try {
+        alert(
+          "Link was copied " + document.execCommand("copy")
+            ? "successful !"
+            : "unsuccessful :("
+        );
+      } catch (err) {
+        alert("OOPS , unable to copy :(");
+      }
+    }
+  },
   computed: {
     shareLink() {
       var hash = this.data.nowPlayer == "live" ? "#live/" : "#record/";
@@ -17,9 +31,9 @@ export default {
         hash + this.data.nowPlayer == "live"
           ? this.data["livePlayer"]["name"]
           : this.data["recordPlayer"]["src"];
-        console.log(hash);
+      console.log(hash);
       window.location.hash =
-        hash == "#" ? window.location.hash : hash.substring(1);
+        hash == "" ? window.location.hash : hash.substring(1);
       return location.href;
     }
   }
