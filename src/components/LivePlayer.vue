@@ -168,7 +168,7 @@ export default {
   width: 100%;
 }
 .LivePlayer {
-  width: 100%;
+  max-width: 100%;
   border-radius: 10px;
   animation-name: LivePlayer;
   animation-duration: 2s;
