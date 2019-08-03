@@ -24,7 +24,7 @@ export default {
   flex-direction: column;
 }
 .RecordPlayer {
-  width: 100%;
+  max-width: 100%;
   border: 3px solid #111;
   border-radius: 10px;
 }
