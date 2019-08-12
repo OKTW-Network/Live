@@ -164,7 +164,6 @@ export default {
       tmpData["recordPlayer"]["subtitle"] =
         hashData.length == 2 ? (a=>{function b(a){return 1==a.toString().length?"0"+a:a}var c=new Date(1e3*parseInt(a));return`${b(c.getFullYear())}-${b(c.getMonth()+1)}-${b(c.getDate())} ${b(c.getHours())}:${b(c.getMinutes())}:${b(c.getSeconds())}`})(`${hashData[1].split(".")[0].split("-")[1]}`) : "";
     }
-    console.log(tmpData);
     return {
       data: tmpData
     };

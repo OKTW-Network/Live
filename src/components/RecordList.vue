@@ -24,13 +24,12 @@ export default {
     mousemove(event) {
       const viewBox = this.$refs.viewBox;
       const detail = event.wheelDelta || event.detail;
-      const step = 0;	
       if (detail > 0) {
         this.step = 100;
       } else {
         this.step = -100;
       }
-      viewBox.scrollLeft += this.step;	
+      viewBox.scrollLeft += this.step;
       event.preventDefault();
     }
   },
