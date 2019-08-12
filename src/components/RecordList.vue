@@ -1,5 +1,5 @@
 <template>
-  <div class="RecordListDiv">
+  <div class="RecordListDiv" ref="viewBox">
     <Record
       v-for="record in records"
       v-on:click="emitClick"
@@ -20,7 +20,22 @@ export default {
   methods: {
     emitClick(type, data) {
       this.$emit("click", type, data);
+    },
+    mousemove(event) {
+      const viewBox = this.$refs.viewBox;
+      const detail = event.wheelDelta || event.detail;
+      const step = 0;	
+      if (detail > 0) {
+        this.step = 100;
+      } else {
+        this.step = -100;
+      }
+      viewBox.scrollLeft += this.step;	
+      event.preventDefault();
     }
+  },
+  mounted() {
+    this.$refs.viewBox.addEventListener('DOMMouseScroll', this.mousemove);
   },
   props: {
     records: Array
