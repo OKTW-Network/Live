@@ -35,6 +35,7 @@ export default {
   },
   mounted() {
     this.$refs.viewBox.addEventListener('DOMMouseScroll', this.mousemove);
+    this.$refs.viewBox.addEventListener('wheel', this.mousemove);
   },
   props: {
     records: Array
@@ -51,18 +52,18 @@ export default {
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: row;
+  scrollbar-color: #555 #f5f5f5;
+  scrollbar-width: thin;
 }
 .RecordListDiv::-webkit-scrollbar {
-  height: 20px;
+  height: 10px;
   border-radius: 10px;
   background-color: #f5f5f5;
 }
 .RecordListDiv::-webkit-scrollbar-track {
-  border-radius: 10px;
   background-color: #f5f5f5;
 }
 .RecordListDiv::-webkit-scrollbar-thumb {
-  border-radius: 10px;
   background-color: #555;
 }
 </style>
