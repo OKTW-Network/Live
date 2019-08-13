@@ -25,16 +25,15 @@ export default {
       const viewBox = this.$refs.viewBox;
       const detail = event.wheelDelta || event.detail;
       if (detail > 0) {
-        this.step = 100;
-      } else {
         this.step = -100;
+      } else {
+        this.step = 100;
       }
       viewBox.scrollLeft += this.step;
       event.preventDefault();
     }
   },
   mounted() {
-    this.$refs.viewBox.addEventListener('DOMMouseScroll', this.mousemove);
     this.$refs.viewBox.addEventListener('wheel', this.mousemove);
   },
   props: {
