@@ -21,10 +21,9 @@ export default {
     emitClick(type, data) {
       this.$emit("click", type, data);
     },
-    mousemove(event) {      
+    mousemove(event) {
       const viewBox = this.$refs.viewBox;
-      const detail = event.detail || event.deltaY;
-      if (detail > 0) {
+      if (event.deltaY > 0) {
         this.step = 100;
       } else {
         this.step = -100;
