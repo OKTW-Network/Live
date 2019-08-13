@@ -28,7 +28,7 @@ export default {
       } else {
         this.step = -100;
       }
-      viewBox.scrollLeft += this.step;	
+      viewBox.scrollLeft += this.step;
       event.preventDefault();
     }
   },
@@ -50,18 +50,18 @@ export default {
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: row;
+  scrollbar-color: #555 #f5f5f5;
+  scrollbar-width: thin;
 }
 .RecordListDiv::-webkit-scrollbar {
-  height: 20px;
+  height: 10px;
   border-radius: 10px;
   background-color: #f5f5f5;
 }
 .RecordListDiv::-webkit-scrollbar-track {
-  border-radius: 10px;
   background-color: #f5f5f5;
 }
 .RecordListDiv::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #555;
+  background-color: rgb(109, 104, 104);
 }
 </style>
