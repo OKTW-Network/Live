@@ -23,8 +23,7 @@ export default {
     },
     mousemove(event) {
       const viewBox = this.$refs.viewBox;
-      const detail = event.wheelDelta || event.detail;
-      if (detail > 0) {
+      if (event.deltaY < 0) {
         this.step = -100;
       } else {
         this.step = 100;
