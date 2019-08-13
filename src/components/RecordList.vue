@@ -23,10 +23,10 @@ export default {
     },
     mousemove(event) {
       const viewBox = this.$refs.viewBox;
-      if (event.deltaY > 0) {
-        this.step = 100;
-      } else {
+      if (event.deltaY < 0) {
         this.step = -100;
+      } else {
+        this.step = 100;
       }
       viewBox.scrollLeft += this.step;	
       event.preventDefault();
