@@ -138,7 +138,7 @@ export default {
         }
       };
 
-      ws.onclose = e => {
+      ws.onclose = () => { // eslint-disable-line
         setTimeout(() => createWSConnection(that),2000);
       };
     }

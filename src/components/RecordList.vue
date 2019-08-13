@@ -63,6 +63,6 @@ export default {
   background-color: #f5f5f5;
 }
 .RecordListDiv::-webkit-scrollbar-thumb {
-  background-color: #555;
+  background-color: rgb(109, 104, 104);
 }
 </style>
