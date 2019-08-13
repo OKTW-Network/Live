@@ -23,6 +23,7 @@ export default {
     },
     mousemove(event) {
       const viewBox = this.$refs.viewBox;
+      const viewBox_width = viewBox.scrollWidth - viewBox.clientWidth;
       if (event.deltaY < 0) {
         this.step = -100;
       } else {
@@ -31,7 +32,7 @@ export default {
       viewBox.scrollLeft += this.step;
       if(viewBox.scrollLeft == 0) {
         return;
-      } else if (viewBox.scrollLeft == viewBox.scrollLeftMax) {
+      } else if (viewBox.scrollLeft == viewBox_width) {
         return;
       }
       event.preventDefault();
