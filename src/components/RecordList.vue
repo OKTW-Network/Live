@@ -21,10 +21,9 @@ export default {
     emitClick(type, data) {
       this.$emit("click", type, data);
     },
-    mousemove(event) {
+    mousemove(event) {      
       const viewBox = this.$refs.viewBox;
-      const detail = event.wheelDelta || event.detail;
-      const step = 0;	
+      const detail = event.detail || event.deltaY;
       if (detail > 0) {
         this.step = 100;
       } else {
@@ -35,7 +34,7 @@ export default {
     }
   },
   mounted() {
-    this.$refs.viewBox.addEventListener('DOMMouseScroll', this.mousemove);
+    this.$refs.viewBox.addEventListener('wheel', this.mousemove);
   },
   props: {
     records: Array
