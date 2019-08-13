@@ -29,6 +29,11 @@ export default {
         this.step = 100;
       }
       viewBox.scrollLeft += this.step;
+      if(viewBox.scrollLeft == 0) {
+        return;
+      } else if (viewBox.scrollLeft == viewBox.scrollLeftMax) {
+        return;
+      }
       event.preventDefault();
     }
   },
