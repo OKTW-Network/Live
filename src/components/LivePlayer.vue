@@ -170,6 +170,8 @@ export default {
 .LivePlayer {
   max-width: 100%;
   border-radius: 10px;
+}
+.LivePlayer:not(:fullscreen) {
   animation-name: LivePlayer;
   animation-duration: 2s;
   animation-iteration-count: infinite;
