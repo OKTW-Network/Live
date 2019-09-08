@@ -25,9 +25,9 @@ export default {
 }
 .RecordPlayer {
   max-width: 100%;
-  border-radius: 10px;
 }
 .RecordPlayer:not(:fullscreen) {
   border: 3px solid #111;
+  border-radius: 10px;
 }
 </style>
