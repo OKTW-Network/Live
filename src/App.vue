@@ -1,14 +1,17 @@
 <template>
   <div id="app">
-    <EighteenPlusWarning/>
-    <RecordPlayer v-if="data.nowPlayer === 'record' " v-bind:video="data.recordPlayer"/>
+    <EighteenPlusWarning @accept="Accept" />
+    <RecordPlayer
+      v-if="data.nowPlayer === 'record'  && data.eighteenPlus "
+      v-bind:video="data.recordPlayer"
+    />
     <LivePlayer
-      v-if="data.nowPlayer === 'live' "
+      v-if="data.nowPlayer === 'live' && data.eighteenPlus "
       v-bind:live="data.livePlayer"
       v-bind:liveChannel="data.liveChannel"
       v-on:liveUpdate="liveUpdate"
     />
-    <Share v-bind:data="data"/>
+    <Share v-bind:data="data" />
     <Streamer
       v-on:click="streamerClicked"
       v-for="streamer in data.streamers"
@@ -98,6 +101,9 @@ export default {
     }
   },
   methods: {
+    Accept() {
+      this.data.eighteenPlus = true;
+    },
     liveUpdate(data) {
       this.data.liveChannel = data;
     },
@@ -130,6 +136,9 @@ export default {
     var hashData = window.location.hash.substring(1).split("/");
     var mode = hashData.includes("record") ? "record" : "live";
     var tmpData = {
+      eighteenPlus: localStorage.eighteenPlus
+        ? localStorage.eighteenPlus
+        : false,
       nowPlayer: mode,
       recordPlayer: {
         src: "",
@@ -160,9 +169,21 @@ export default {
       tmpData["recordPlayer"]["src"] =
         hashData.length == 2 ? `${dirURL}${hashData[1]}` : "";
       tmpData["recordPlayer"]["title"] =
-        hashData.length == 2 ? `${hashData[1].split(".")[0].split("-")[0]}` : "";
+        hashData.length == 2
+          ? `${hashData[1].split(".")[0].split("-")[0]}`
+          : "";
       tmpData["recordPlayer"]["subtitle"] =
-        hashData.length == 2 ? (a=>{function b(a){return 1==a.toString().length?"0"+a:a}var c=new Date(1e3*parseInt(a));return`${b(c.getFullYear())}-${b(c.getMonth()+1)}-${b(c.getDate())} ${b(c.getHours())}:${b(c.getMinutes())}:${b(c.getSeconds())}`})(`${hashData[1].split(".")[0].split("-")[1]}`) : "";
+        hashData.length == 2
+          ? (a => {
+              function b(a) {
+                return 1 == a.toString().length ? "0" + a : a;
+              }
+              var c = new Date(1e3 * parseInt(a));
+              return `${b(c.getFullYear())}-${b(c.getMonth() + 1)}-${b(
+                c.getDate()
+              )} ${b(c.getHours())}:${b(c.getMinutes())}:${b(c.getSeconds())}`;
+            })(`${hashData[1].split(".")[0].split("-")[1]}`)
+          : "";
     }
     return {
       data: tmpData

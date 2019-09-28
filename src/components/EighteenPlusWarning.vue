@@ -19,6 +19,7 @@ export default {
       if (Math.round(this.acceptScale * 10) != 10) {
         this.acceptScale -= 0.2;
       } else {
+        localStorage.eighteenPlus = true;
         this.accepted = true;
       }
     },
@@ -29,7 +30,7 @@ export default {
   data() {
     return {
       acceptScale: 1,
-      accepted: false
+      accepted: (localStorage.eighteenPlus) ? (localStorage.eighteenPlus) : false
     };
   },
   computed: {
@@ -43,16 +44,6 @@ export default {
         height: this.accepted ? "0%" : "100%",
         top: this.accepted ? "-100%" : "0"
       };
-    }
-  },
-  mounted() {
-    if (localStorage.accepted) {
-      this.accepted = localStorage.accepted;
-    }
-  },
-  watch: {
-    accepted(val) {
-      localStorage.accepted = val;
     }
   },
   props: {}
