@@ -149,7 +149,8 @@ export default {
         src: "",
         title: "",
         name: "",
-        subtitle: ""
+        subtitle: "",
+        ws : null
       },
       liveChannel: {
         nowViewerCount: 0

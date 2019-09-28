@@ -41,12 +41,12 @@ export default {
     BulletScreenMessage
   },
   data() {
-    return { username: "", ws: null, bulletScreens: [] };
+    return { username: "", bulletScreens: [] };
   },
   methods: {
     sendBulletScreen() {
       if (this.$refs.BulletScreenMessage.value !== "") {
-        this.ws.send(
+        this.live.ws.send(
           JSON.stringify({
             method: "sendBulletMessage",
             msg: this.$refs.BulletScreenMessage.value
@@ -61,7 +61,7 @@ export default {
   },
   watch: {
     username(newName) {
-      this.ws.send(JSON.stringify({ method: "setName", name: this.username }));
+      this.live.ws.send(JSON.stringify({ method: "setName", name: this.username }));
       localStorage.username = newName;
     },
     live: {
@@ -69,7 +69,7 @@ export default {
         const url = this.live.src;
         const player = document.getElementById("LivePlayer");
 
-        this.ws.send(
+        this.live.ws.send(
           JSON.stringify({ method: "joinChannel", channelName: this.live.name })
         );
 
@@ -114,8 +114,8 @@ export default {
 
     function createWSConnection(that) {
       const wsServer = "wss://live.oktw.one/ws";
-      const ws = new WebSocket(wsServer);
-      that.ws = ws;
+      const ws = (this.live.ws) ? this.live.ws : new WebSocket(wsServer);
+      this.live.ws = ws;
 
       ws.onopen = () => {
         ws.send(JSON.stringify({ method: "setName", name: that.username }));
@@ -142,8 +142,6 @@ export default {
         setTimeout(() => createWSConnection(that),2000);
       };
     }
-
-    createWSConnection(this);
   }
 };
 </script>

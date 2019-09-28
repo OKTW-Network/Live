@@ -1,23 +1,22 @@
 <template>
   <div id="Share">
     Link :
-    <input id="ShareField" v-model="shareLink">
+    <input id="ShareField" v-model="shareLink" />
     <button id="CopyButton" @click="shareCopy">Copy</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Divider",
+  name: "Share",
   props: { data: Object },
   methods: {
     shareCopy() {
       document.querySelector("#ShareField").select();
       try {
         alert(
-          "Link was copied " + document.execCommand("copy")
-            ? "successful !"
-            : "unsuccessful :("
+          "Link was copied " +
+            (document.execCommand("copy") ? "successful !" : "unsuccessful :(")
         );
       } catch (err) {
         alert("OOPS , unable to copy :(");
@@ -29,8 +28,8 @@ export default {
       var hash = this.data.nowPlayer == "live" ? "#live/" : "#record/";
       hash =
         hash + this.data.nowPlayer == "live"
-          ? this.data["livePlayer"]["name"]
-          : this.data["recordPlayer"]["src"];
+          ? this.data.livePlayer.name
+          : this.data.recordPlayer.src;
       window.location.hash =
         hash == "" ? window.location.hash : hash.substring(1);
       return location.href;
