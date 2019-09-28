@@ -142,6 +142,8 @@ export default {
         setTimeout(() => createWSConnection(that),2000);
       };
     }
+
+    createWSConnection(this);
   }
 };
 </script>
