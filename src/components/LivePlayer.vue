@@ -112,9 +112,9 @@ export default {
       this.username = localStorage.username;
     }
 
-    function createWSConnection(that) {
+    function createWSConnection(that,kill=false) {
       const wsServer = "wss://live.oktw.one/ws";
-      const ws = (this.live.ws) ? this.live.ws : new WebSocket(wsServer);
+      const ws = (this.live.ws != null && !kill) ? this.live.ws : new WebSocket(wsServer);
       this.live.ws = ws;
 
       ws.onopen = () => {
@@ -139,7 +139,7 @@ export default {
       };
 
       ws.onclose = () => { // eslint-disable-line
-        setTimeout(() => createWSConnection(that),2000);
+        setTimeout(() => createWSConnection(that,true),2000);
       };
     }
 
