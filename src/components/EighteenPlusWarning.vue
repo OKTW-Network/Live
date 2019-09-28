@@ -20,6 +20,7 @@ export default {
         this.acceptScale -= 0.2;
       } else {
         localStorage.eighteenPlus = true;
+        this.$emit("accept");
         this.accepted = true;
       }
     },
