@@ -16,35 +16,43 @@ export default {
   name: "EighteenPlusWarning",
   methods: {
     Accept() {
-      if (Math.round(this.data.acceptScale * 10) != 10) {
-        this.data.acceptScale -= 0.2;
+      if (Math.round(this.acceptScale * 10) != 10) {
+        this.acceptScale -= 0.2;
       } else {
-        this.data.accepted = true;
+        this.accepted = true;
       }
     },
     Declined() {
-      this.data.acceptScale += 0.2;
+      this.acceptScale += 0.2;
     }
   },
   data() {
     return {
-      data: {
-        acceptScale: 1,
-        accepted: false
-      }
+      acceptScale: 1,
+      accepted: false
     };
   },
   computed: {
     AcceptButtonClassObject: function() {
       return {
-        transform: `scale(${this.data.acceptScale})`
+        transform: `scale(${this.acceptScale})`
       };
     },
     EighteenPlusWarningClassObject: function() {
       return {
-        height: this.data.accepted ? "0%" : "100%",
-        top: this.data.accepted ? "-100%" : "0"
+        height: this.accepted ? "0%" : "100%",
+        top: this.accepted ? "-100%" : "0"
       };
+    }
+  },
+  mounted() {
+    if (localStorage.accepted) {
+      this.accepted = localStorage.accepted;
+    }
+  },
+  watch: {
+    accepted(val) {
+      localStorage.accepted = val;
     }
   },
   props: {}
