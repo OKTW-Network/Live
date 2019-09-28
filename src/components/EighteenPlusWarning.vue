@@ -1,6 +1,6 @@
 <template>
   <div v-bind:style="EighteenPlusWarningClassObject" id="EighteenPlusWarning">
-    <img src="img/18.svg" id="EighteenPlusWarningLogo">
+    <img src="img/18.svg" id="EighteenPlusWarningLogo" />
     <button
       v-bind:style="AcceptButtonClassObject"
       class="EighteenPlusWarningButton"
@@ -74,7 +74,7 @@ export default {
   align-items: center;
   flex-direction: column;
 
-  overflow:auto;
+  overflow: auto;
 
   position: fixed;
   top: 0;
