@@ -46,7 +46,6 @@ export default {
         .filter(
           i =>
             "format" in i &&
-            i.format.format_name === "flv" &&
             i.format.size != 0
         )
         .map(async i => {
