@@ -96,7 +96,7 @@ export default {
     const url = this.live.src;
 
     if (Hls.isSupported()) { // eslint-disable-line
-      this.liveHLS = new Hls({ liveDurationInfinity: true }); // eslint-disable-line
+      this.liveHLS = new Hls({ liveDurationInfinity: true, liveSyncDurationCount: 0, liveMaxLatencyDurationCount: 3 }); // eslint-disable-line
 
       this.liveHLS.loadSource(url);
       this.liveHLS.attachMedia(player);
