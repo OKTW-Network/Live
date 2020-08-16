@@ -59,6 +59,10 @@ export default {
       this.bulletScreens = this.bulletScreens.filter(i => i.uuid != uuid);
     }
   },
+  beforeDestory(){
+    if(this.liveHLS)
+      this.liveHLS.destroy();
+  },
   watch: {
     username(newName) {
       this.live.ws.send(JSON.stringify({ method: "setName", name: this.username }));
