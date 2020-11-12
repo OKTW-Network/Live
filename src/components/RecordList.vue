@@ -1,21 +1,23 @@
 <template>
-  <div class="RecordListDiv" ref="viewBox">
-    <Record
-      v-for="record in records"
-      v-on:click="emitClick"
-      v-bind:record="record"
-      :key="record.src"
-    />
-  </div>
+  <perfect-scrollbar class="RecordListDiv" ref="viewBox">
+      <Record
+        v-for="record in records"
+        v-on:click="emitClick"
+        v-bind:record="record"
+        :key="record.src"
+      />
+  </perfect-scrollbar>
 </template>
 
 <script>
 import Record from "./Record.vue";
+import { PerfectScrollbar } from "vue2-perfect-scrollbar";
 
 export default {
   name: "RecordList",
   components: {
-    Record
+    Record,
+    PerfectScrollbar,
   },
   methods: {
     emitClick(type, data) {
@@ -30,20 +32,20 @@ export default {
         this.step = 100;
       }
       viewBox.scrollLeft += this.step;
-      if(viewBox.scrollLeft == 0) {
+      if (viewBox.scrollLeft == 0) {
         return;
       } else if (viewBox.scrollLeft == viewBox_width) {
         return;
       }
       event.preventDefault();
-    }
+    },
   },
   mounted() {
-    this.$refs.viewBox.addEventListener('wheel', this.mousemove);
+    this.$refs.viewBox.addEventListener("wheel", this.mousemove);
   },
   props: {
-    records: Array
-  }
+    records: Array,
+  },
 };
 </script>
 
@@ -56,9 +58,10 @@ export default {
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: row;
-  scrollbar-color: #555 #f5f5f5;
-  scrollbar-width: thin;
+  /* scrollbar-color: #555 #f5f5f5;
+  scrollbar-width: thin; */
 }
+/*
 .RecordListDiv::-webkit-scrollbar {
   height: 10px;
   border-radius: 10px;
@@ -70,4 +73,5 @@ export default {
 .RecordListDiv::-webkit-scrollbar-thumb {
   background-color: rgb(109, 104, 104);
 }
+*/
 </style>
