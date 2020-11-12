@@ -51,7 +51,8 @@ export default {
 
 <style>
 .RecordListDiv {
-  /* width: 100%; */
+  width: 100%;
+  overflow: hidden;
   /* overflow-x: auto; */
   /* overflow-y: hidden; */
   display: flex;
@@ -76,3 +77,4 @@ export default {
 }
 */
 </style>
+<style src="vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css"/>
