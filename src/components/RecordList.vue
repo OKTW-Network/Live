@@ -1,5 +1,5 @@
 <template>
-  <perfect-scrollbar class="RecordListDiv" ref="viewBox">
+  <perfect-scrollbar class="RecordListDiv" ref="viewBox" :options="{suppressScrollX : true}">
     <Record
       v-for="record in records"
       v-on:click="emitClick"
