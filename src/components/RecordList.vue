@@ -37,7 +37,7 @@ export default {
       } else if (viewBox.scrollLeft == viewBox_width) {
         return;
       }
-      event.preventDefault();
+      // event.preventDefault();
     },
   },
   mounted() {
