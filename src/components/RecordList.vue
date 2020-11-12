@@ -1,5 +1,5 @@
 <template>
-  <perfect-scrollbar class="RecordListDiv" ref="viewBox" :options="{wheelPropagation: false}">
+  <perfect-scrollbar class="RecordListDiv" ref="viewBox" :options="{wheelPropagation: false, scrollXMarginOffset: '10px'}">
     <Record
       v-for="record in records"
       v-on:click="emitClick"
