@@ -1,5 +1,5 @@
 <template>
-  <perfect-scrollbar class="RecordListDiv" ref="viewBox" :options="{suppressScrollX : true}">
+  <perfect-scrollbar class="RecordListDiv" ref="viewBox">
     <Record
       v-for="record in records"
       v-on:click="emitClick"
@@ -42,6 +42,7 @@ export default {
   },
   mounted() {
     this.$refs.viewBox.$el.addEventListener("wheel", this.mousemove);
+    this.$refs.viewBox.ps.update();
   },
   props: {
     records: Array,
