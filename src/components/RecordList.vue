@@ -1,11 +1,11 @@
 <template>
   <perfect-scrollbar class="RecordListDiv" ref="viewBox">
-      <Record
-        v-for="record in records"
-        v-on:click="emitClick"
-        v-bind:record="record"
-        :key="record.src"
-      />
+    <Record
+      v-for="record in records"
+      v-on:click="emitClick"
+      v-bind:record="record"
+      :key="record.src"
+    />
   </perfect-scrollbar>
 </template>
 
@@ -51,13 +51,14 @@ export default {
 
 <style>
 .RecordListDiv {
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
+  /* width: 100%; */
+  /* overflow-x: auto; */
+  /* overflow-y: hidden; */
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: row;
+  position: relative;
   /* scrollbar-color: #555 #f5f5f5;
   scrollbar-width: thin; */
 }
