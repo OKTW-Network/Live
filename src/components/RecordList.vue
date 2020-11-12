@@ -24,7 +24,7 @@ export default {
       this.$emit("click", type, data);
     },
     mousemove(event) {
-      const viewBox = this.$refs.scroll.$el;
+      const viewBox = this.$refs.viewBox.$el;
       const viewBox_width = viewBox.scrollWidth - viewBox.clientWidth;
       if (event.deltaY < 0) {
         this.step = -100;
