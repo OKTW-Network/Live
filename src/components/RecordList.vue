@@ -41,7 +41,7 @@ export default {
     },
   },
   mounted() {
-    this.$refs.viewBox.addEventListener("wheel", this.mousemove);
+    this.$refs.viewBox.$el.addEventListener("wheel", this.mousemove);
   },
   props: {
     records: Array,
