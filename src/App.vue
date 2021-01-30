@@ -42,7 +42,7 @@ export default {
   },
   async mounted() {
     const videos = await Promise.all(
-      (await (await fetch(dirURL + "/list.json")).json())
+      (await (await fetch(dirURL + "list.json")).json())
         .filter(
           i =>
             "format" in i &&
