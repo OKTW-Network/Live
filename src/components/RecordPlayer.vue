@@ -30,5 +30,6 @@ export default {
 .RecordPlayer:not(:fullscreen) {
   border: 3px solid #111;
   border-radius: 10px;
+  box-sizing: border-box;
 }
 </style>

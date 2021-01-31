@@ -199,6 +199,7 @@ export default {
   animation-name: LivePlayer;
   animation-duration: 2s;
   animation-iteration-count: infinite;
+  box-sizing: border-box;
 }
 #ViewerName {
   background: #111;
