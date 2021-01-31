@@ -37,7 +37,7 @@ export default {
     },
     setLink() {
       var hash = this.data.nowPlayer == "live" ? "#live/" : "#record/";
-      hash = hash + (this.data.nowPlayer == "live" ? this.data.livePlayer.name : this.data.recordPlayer.src);
+      hash = hash + (this.data.nowPlayer == "live" ? this.data.livePlayer.name : this.data.recordPlayer.name);
       window.location.hash =
         hash == "" ? window.location.hash : hash.substring(1);
       this.link = location.href;

@@ -60,7 +60,8 @@ export default {
             thumbSrc:
               dirURL + filename.substring(0, filename.length - 3) + "png",
             duration: i.format.duration,
-            src: dirURL + filename.substring(0, filename.length - 3) + "mp4"
+            src: dirURL + filename.substring(0, filename.length - 3) + "mp4",
+            name: filename.substring(0, filename.length - 3) + "mp4"
           };
         })
     );
