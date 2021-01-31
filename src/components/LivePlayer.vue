@@ -21,7 +21,7 @@
         <div class="BulletInput">
           <label for="BulletScreenMessage">Bullet Screen :</label>
           <input id="BulletScreenMessage" ref="BulletScreenMessage" @keyup.enter="sendBulletScreen" type="text">
-          <button id="BulletScreenButton" @click="sendBulletScreen">發送</button>
+          <button id="BulletScreenButton" @click="sendBulletScreen">Send</button>
         </div>
       </div>
     </div>
