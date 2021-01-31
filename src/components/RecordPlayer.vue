@@ -7,6 +7,7 @@
 </template>
 
 <script>
+
 export default {
   name: "RecordPlayer",
   props: {
@@ -17,7 +18,7 @@ export default {
 
 <style>
 .RecordPlayerDiv {
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -29,5 +30,6 @@ export default {
 .RecordPlayer:not(:fullscreen) {
   border: 3px solid #111;
   border-radius: 10px;
+  box-sizing: border-box;
 }
 </style>

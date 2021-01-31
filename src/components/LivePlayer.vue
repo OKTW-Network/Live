@@ -14,15 +14,15 @@
       </div>
       <div class="LivePlayerRow">
         <h3>Viewer Count : {{liveChannel.nowViewerCount}}</h3>
-        <h4>
-          Your Name :
+        <div class="BulletInput">
+          <label for="ViewerName">Your Name :</label>
           <input id="ViewerName" v-model="username" type="text">
-        </h4>
-        <h4>
-          Bullet Screen :
+        </div>
+        <div class="BulletInput">
+          <label for="BulletScreenMessage">Bullet Screen :</label>
           <input id="BulletScreenMessage" ref="BulletScreenMessage" @keyup.enter="sendBulletScreen" type="text">
-          <button id="BulletScreenButton" @click="sendBulletScreen">發送</button>
-        </h4>
+          <button id="BulletScreenButton" @click="sendBulletScreen">Send</button>
+        </div>
       </div>
     </div>
   </div>
@@ -174,7 +174,7 @@ export default {
 
 <style>
 .LivePlayerDiv {
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -199,6 +199,7 @@ export default {
   animation-name: LivePlayer;
   animation-duration: 2s;
   animation-iteration-count: infinite;
+  box-sizing: border-box;
 }
 #ViewerName {
   background: #111;
@@ -218,6 +219,9 @@ export default {
   margin: 2px;
   border-radius: 5px;
   cursor: pointer;
+}
+.BulletInput {
+    margin: 0.5em 0;
 }
 @keyframes LivePlayer {
   0% {

@@ -60,7 +60,8 @@ export default {
             thumbSrc:
               dirURL + filename.substring(0, filename.length - 3) + "png",
             duration: i.format.duration,
-            src: dirURL + filename.substring(0, filename.length - 3) + "mp4"
+            src: dirURL + filename.substring(0, filename.length - 3) + "mp4",
+            name: filename.substring(0, filename.length - 3) + "mp4"
           };
         })
     );
@@ -110,6 +111,7 @@ export default {
       if (type === "record") {
         this.data.nowPlayer = "record";
         this.data.recordPlayer.src = eventData.src;
+        this.data.recordPlayer.name = eventData.name;
         this.data.recordPlayer.title = eventData.streamer.name;
         this.data.recordPlayer.subtitle = eventData.publishTimeText;
         window.scrollTo(0, 0);
@@ -168,6 +170,8 @@ export default {
     } else {
       tmpData["recordPlayer"]["src"] =
         hashData.length == 2 ? `${dirURL}${hashData[1]}` : "";
+      tmpData["recordPlayer"]["name"] =
+        hashData.length == 2 ? `${hashData[1]}` : "";
       tmpData["recordPlayer"]["title"] =
         hashData.length == 2
           ? `${hashData[1].split(".")[0].split("-")[0]}`
@@ -200,9 +204,10 @@ export default {
   color: white;
 }
 body {
-  padding: 20px;
-  padding-bottom: 100px;
   background: #222;
+}
+label {
+  display: block;
 }
 #app {
   width: 100%;
@@ -210,5 +215,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  max-width: 1280px;
+  margin: 2vh auto 5vh auto;
 }
 </style>
