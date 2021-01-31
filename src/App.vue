@@ -206,6 +206,9 @@ export default {
 body {
   background: #222;
 }
+label {
+  display: block;
+}
 #app {
   width: 100%;
   display: flex;
