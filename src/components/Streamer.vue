@@ -40,7 +40,7 @@ export default {
 
 <style>
 .StreamerDiv {
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;

@@ -200,8 +200,6 @@ export default {
   color: white;
 }
 body {
-  padding: 20px;
-  padding-bottom: 100px;
   background: #222;
 }
 #app {
@@ -210,5 +208,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  max-width: 1280px;
+  margin: 2vh auto 5vh auto;
 }
 </style>
