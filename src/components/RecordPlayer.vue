@@ -26,7 +26,6 @@ export default {
 }
 .RecordPlayer {
   max-width: 100%;
-  align-self: center;
 }
 .RecordPlayer:not(:fullscreen) {
   border: 3px solid #111;

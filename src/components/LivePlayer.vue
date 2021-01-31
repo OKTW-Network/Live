@@ -193,7 +193,6 @@ export default {
 }
 .LivePlayer {
   max-width: 100%;
-  align-self: center;
 }
 .LivePlayer:not(:fullscreen) {
   border-radius: 10px;
