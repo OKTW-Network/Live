@@ -70,26 +70,30 @@ export default {
       a.publishTime > b.publishTime ? -1 : a.publishTime < b.publishTime ? 1 : 0
     );
 
-    var streamers = {};
+    var streamers = new Map();
     videos.forEach(video => {
-      if (video.streamer in streamers) {
-        streamers[video.streamer].unloadRecords.push(video);
+      if (streamers.has(video.streamer)) {
+        streamers.get(video.streamer).unloadRecords.push(video);
       } else {
-        streamers[video.streamer] = {
+        streamers.set(video.streamer,{
           name: video.streamer,
           unloadRecords: [video],
           records: [],
           live: false
-        };
+        })
       }
     });
 
-    for (var streamerName in streamers) {
-      streamers[streamerName].live = (await fetch(
-        `${liveURL}${streamerName}.m3u8`
-      )).ok;
-      this.data.streamers.push(streamers[streamerName]);
-    }
+    const pending = [];
+    streamers.forEach((v,k) => {
+      pending.push(
+        fetch(`${liveURL}${k}.m3u8`)
+          .then(res => v.live = res.ok)
+          .catch(() => {})
+      )
+    })
+    await Promise.allSettled(pending)
+    streamers.forEach(i => this.data.streamers.push(i))
 
     if ((await fetch(`${liveURL}live.m3u8`)).ok) {
       this.data.streamers.unshift({
