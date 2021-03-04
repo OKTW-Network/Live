@@ -80,7 +80,7 @@ export default {
         if (Hls.isSupported()) { // eslint-disable-line
           this.liveHLS.destroy();
           setTimeout(() => {
-            this.liveHLS = new Hls({ liveDurationInfinity: true, liveSyncDurationCount: 0 }); // eslint-disable-line
+            this.liveHLS = new Hls({ liveSyncDurationCount: 0, maxLiveSyncPlaybackRate: 1.3 }); // eslint-disable-line
             this.liveHLS.on(Hls.Events.ERROR, function (event, data) { // eslint-disable-line
               if (data.fatal) {
                 switch (data.type) {
@@ -119,8 +119,26 @@ export default {
     const url = this.live.src;
 
     if (Hls.isSupported()) { // eslint-disable-line
-      this.liveHLS = new Hls({ liveDurationInfinity: true, liveSyncDurationCount: 0, liveMaxLatencyDurationCount: 3 }); // eslint-disable-line
-
+      this.liveHLS = new Hls({ liveSyncDurationCount: 0, maxLiveSyncPlaybackRate: 1.3 }); // eslint-disable-line
+      this.liveHLS.on(Hls.Events.ERROR, function (event, data) { // eslint-disable-line
+        if (data.fatal) {
+          switch (data.type) {
+            case Hls.ErrorTypes.NETWORK_ERROR: // eslint-disable-line
+              // try to recover network error
+              console.log('fatal network error encountered, try to recover');
+              hls.startLoad(); // eslint-disable-line
+              break;
+            case Hls.ErrorTypes.MEDIA_ERROR: // eslint-disable-line
+              console.log('fatal media error encountered, try to recover');
+              hls.recoverMediaError(); // eslint-disable-line
+              break;
+            default:
+              // cannot recover
+              hls.destroy(); // eslint-disable-line
+              break;
+          }
+        }
+      });
       this.liveHLS.loadSource(url);
       this.liveHLS.attachMedia(player);
       this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play()); // eslint-disable-line
