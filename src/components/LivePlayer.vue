@@ -80,7 +80,7 @@ export default {
         if (Hls.isSupported()) { // eslint-disable-line
           this.liveHLS.destroy();
           setTimeout(() => {
-            this.liveHLS = new Hls({ liveSyncDurationCount: 1 }); // eslint-disable-line
+            this.liveHLS = new Hls({ liveSyncDurationCount: 0 }); // eslint-disable-line
             this.liveHLS.on(Hls.Events.ERROR, function (event, data) { // eslint-disable-line
               if (data.fatal) {
                 switch (data.type) {
@@ -119,7 +119,7 @@ export default {
     const url = this.live.src;
 
     if (Hls.isSupported()) { // eslint-disable-line
-      this.liveHLS = new Hls({ liveSyncDurationCount: 1 }); // eslint-disable-line
+      this.liveHLS = new Hls({ liveSyncDurationCount: 0 }); // eslint-disable-line
       this.liveHLS.on(Hls.Events.ERROR, function (event, data) { // eslint-disable-line
         if (data.fatal) {
           switch (data.type) {
