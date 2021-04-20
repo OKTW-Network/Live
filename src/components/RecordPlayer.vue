@@ -28,7 +28,7 @@ export default {
   max-width: 100%;
 }
 .RecordPlayer:not(:fullscreen) {
-  outline: 3px solid #111;
+  box-shadow: 0 0 0 3px #111;
   border-radius: 10px;
   box-sizing: border-box;
 }
