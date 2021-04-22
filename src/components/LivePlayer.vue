@@ -243,13 +243,13 @@ export default {
 }
 @keyframes LivePlayer {
   0% {
-    border: 3px solid #111;
+    box-shadow: 0 0 0 3px #111;
   }
   50% {
-    border: 3px solid #2f1111;
+    box-shadow: 0 0 0 3px #2f1111;
   }
   100% {
-    border: 3px solid #111;
+    box-shadow: 0 0 0 3px #111;
   }
 }
 </style>
