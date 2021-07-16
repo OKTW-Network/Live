@@ -1,6 +1,6 @@
 <template>
   <div @click="emitClick" class="RecordDiv">
-    <img class="RecordThumb" v-bind:src="record.thumbSrc">
+    <img class="RecordThumb" loading="lazy" v-bind:src="record.thumbSrc">
     <div class="RecordDuration">{{getDuration}}</div>
     <div class="RecordPublishTime">{{getPublishTime}}</div>
   </div>
