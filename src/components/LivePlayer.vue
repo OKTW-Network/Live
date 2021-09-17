@@ -30,6 +30,8 @@
 
 <script>
 import BulletScreenMessage from "./BulletScreenMessage.vue";
+import Plyr from 'plyr'
+import 'plyr/dist/plyr.css'
 
 export default {
   name: "LivePlayer",
@@ -116,6 +118,13 @@ export default {
   },
   mounted() {
     const player = document.getElementById("LivePlayer");
+    const plyrPlayer = new Plyr(player, {
+      seekTime: 5,
+      tooltips: { controls: true, seek: true },
+      autoplay: true,
+      invertTime: true,
+      toggleInvert: false
+    });
     const url = this.live.src;
 
     if (Hls.isSupported()) { // eslint-disable-line
@@ -219,6 +228,11 @@ export default {
   animation-iteration-count: infinite;
   box-sizing: border-box;
 }
+
+.plyr__menu__container {
+  background-color: rgba(0,0,0,0.5)
+}
+
 #ViewerName {
   background: #111;
   border: 0px;
