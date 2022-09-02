@@ -118,7 +118,7 @@ export default {
   },
   mounted() {
     const player = document.getElementById("LivePlayer");
-    const plyrPlayer = new Plyr(player, {
+    new Plyr(player, {
       seekTime: 5,
       tooltips: { controls: true, seek: true },
       autoplay: true,
