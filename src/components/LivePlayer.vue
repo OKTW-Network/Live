@@ -59,11 +59,21 @@ export default {
     },
     deleteMessage(uuid) {
       this.bulletScreens = this.bulletScreens.filter(i => i.uuid != uuid);
+    },
+    updateQuality(newQuality) {
+      this.liveHLS.levels.forEach((level, levelIndex) => {
+        if (level.height === newQuality) {
+          console.log("Found quality match with " + newQuality);
+          this.liveHLS.currentLevel = levelIndex;
+        }
+      });
     }
   },
   beforeDestory(){
+    if (this.plyr) this.plyr.destroy();
     if(this.liveHLS)
       this.liveHLS.destroy();
+
   },
   watch: {
     username(newName) {
@@ -78,6 +88,16 @@ export default {
         this.live.ws.send(
           JSON.stringify({ method: "joinChannel", channelName: this.live.name })
         );
+
+        if (this.plyr) this.plyr.destroy();
+
+        const plyrOptions = {
+          seekTime: 5,
+          tooltips: { controls: true, seek: true },
+          autoplay: true,
+          invertTime: true,
+          toggleInvert: false
+        };
 
         if (Hls.isSupported()) { // eslint-disable-line
           this.liveHLS.destroy();
@@ -103,6 +123,29 @@ export default {
               }
             });
             this.liveHLS.loadSource(url);
+
+            // From the m3u8 playlist, hls parses the manifest and returns
+            // all available video qualities. This is important, in this approach,
+            // we will have one source on the Plyr player.
+            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, function (event, data) {// eslint-disable-line
+
+              // Transform available levels into an array of integers (height values).
+              const availableQualities = this.liveHLS.levels.map((l) => l.height)
+
+              // Add new qualities to option
+              plyrOptions.quality = {
+                default: availableQualities[0],
+                options: availableQualities,
+                // this ensures Plyr to use Hls to update quality level
+                forced: true,        
+                onChange: (e) => this.methods.updateQuality(e),
+              }
+
+              // Initialize here
+              this.plyr = new Plyr(player, plyrOptions);
+            });
+
+
             this.liveHLS.attachMedia(player);
             this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play()); // eslint-disable-line
           }, 100);
@@ -110,6 +153,7 @@ export default {
         // Fuck you apple
         else if (player.canPlayType("application/vnd.apple.mpegurl")) {
           player.src = url;
+          this.plyr = new Plyr(player, plyrOptions);
           player.addEventListener("loadedmetadata", () => player.play());
         }
       },
@@ -118,14 +162,15 @@ export default {
   },
   mounted() {
     const player = document.getElementById("LivePlayer");
-    new Plyr(player, {
+    const url = this.live.src;
+
+    const plyrOptions = {
       seekTime: 5,
       tooltips: { controls: true, seek: true },
       autoplay: true,
       invertTime: true,
       toggleInvert: false
-    });
-    const url = this.live.src;
+    };
 
     if (Hls.isSupported()) { // eslint-disable-line
       this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)}); // eslint-disable-line
@@ -149,6 +194,25 @@ export default {
         }
       });
       this.liveHLS.loadSource(url);
+
+      this.liveHLS.on(Hls.Events.MANIFEST_PARSED, function (event, data) { // eslint-disable-line
+
+        // Transform available levels into an array of integers (height values).
+        const availableQualities = this.liveHLS.levels.map((l) => l.height)
+
+        // Add new qualities to option
+        plyrOptions.quality = {
+          default: availableQualities[0],
+          options: availableQualities,
+          // this ensures Plyr to use Hls to update quality level
+          forced: true,        
+          onChange: (e) => this.methods.updateQuality(e),
+        }
+
+        // Initialize here
+        this.plyr = new Plyr(player, plyrOptions);
+      });
+
       this.liveHLS.attachMedia(player);
       this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play()); // eslint-disable-line
     }
@@ -156,6 +220,7 @@ export default {
     else if (player.canPlayType("application/vnd.apple.mpegurl")) {
       player.src = url;
       player.addEventListener("loadedmetadata", () => player.play());
+      this.plyr = new Plyr(player, plyrOptions);
     }
 
     if (localStorage.username) {
