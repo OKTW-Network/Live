@@ -62,7 +62,8 @@ export default {
       this.bulletScreens = this.bulletScreens.filter(i => i.uuid != uuid);
     }
   },
-  beforeDestory(){
+  beforeDestory() {
+    if (this.plyr) this.plyr.destroy();
     if(this.liveHLS)
       this.liveHLS.destroy();
   },
@@ -80,6 +81,7 @@ export default {
           JSON.stringify({ method: "joinChannel", channelName: this.live.name })
         );
 
+        if (this.plyr) this.plyr.destroy();
         const plyrOptions = {
           seekTime: 5,
           tooltips: { controls: true, seek: true },
