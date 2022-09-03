@@ -91,6 +91,7 @@ export default {
           i18n: {
             qualityLabel: {
               0: 'Source',
+              '-1': 'Auto'
             },
           },
         };
@@ -123,6 +124,8 @@ export default {
             this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => {
               // Transform available levels into an array of integers (height values).
               const availableQualities = this.liveHLS.levels.map((l) => l.height)
+              availableQualities.push(-1)
+              availableQualities.reverse()
 
               // Add new qualities to option
               plyrOptions.quality = {
@@ -131,10 +134,13 @@ export default {
                 // this ensures Plyr to use Hls to update quality level
                 forced: true,        
                 onChange: (newQuality) => {
+                  if (newQuality === -1) {
+                    this.liveHLS.nextLevel = -1;
+                  }
+
                   this.liveHLS.levels.forEach((level, levelIndex) => {
                       if (level.height === newQuality) {
-                        console.log("Found quality match with " + newQuality);
-                        this.liveHLS.currentLevel = levelIndex;
+                        this.liveHLS.nextLevel = levelIndex;
                       }
                   });
                 },
@@ -168,6 +174,7 @@ export default {
       i18n: {
         qualityLabel: {
           0: 'Source',
+          '-1': 'Auto'
         },
       },
     };
@@ -198,6 +205,8 @@ export default {
       this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => {
         // Transform available levels into an array of integers (height values).
         const availableQualities = this.liveHLS.levels.map((l) => l.height)
+        availableQualities.push(-1)
+        availableQualities.reverse()
 
         // Add new qualities to option
         plyrOptions.quality = {
@@ -206,10 +215,13 @@ export default {
           // this ensures Plyr to use Hls to update quality level
           forced: true,        
           onChange: (newQuality) => {
+            if (newQuality === -1) {
+              this.liveHLS.nextLevel = -1;
+            }
+
             this.liveHLS.levels.forEach((level, levelIndex) => {
                 if (level.height === newQuality) {
-                  console.log("Found quality match with " + newQuality);
-                  this.liveHLS.currentLevel = levelIndex;
+                  this.liveHLS.nextLevel = levelIndex;
                 }
             });
           },
