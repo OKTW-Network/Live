@@ -80,6 +80,19 @@ export default {
           JSON.stringify({ method: "joinChannel", channelName: this.live.name })
         );
 
+        const plyrOptions = {
+          seekTime: 5,
+          tooltips: { controls: true, seek: true },
+          autoplay: true,
+          invertTime: true,
+          toggleInvert: false,
+          i18n: {
+            qualityLabel: {
+              0: 'Source',
+            },
+          },
+        };
+
         if (Hls.isSupported()) {
           this.liveHLS.destroy();
           setTimeout(() => {
@@ -105,13 +118,36 @@ export default {
             });
             this.liveHLS.loadSource(url);
             this.liveHLS.attachMedia(player);
-            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play());
+            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => {
+              // Transform available levels into an array of integers (height values).
+              const availableQualities = this.liveHLS.levels.map((l) => l.height)
+
+              // Add new qualities to option
+              plyrOptions.quality = {
+                default: availableQualities[0],
+                options: availableQualities,
+                // this ensures Plyr to use Hls to update quality level
+                forced: true,        
+                onChange: (newQuality) => {
+                  this.liveHLS.levels.forEach((level, levelIndex) => {
+                      if (level.height === newQuality) {
+                        console.log("Found quality match with " + newQuality);
+                        this.liveHLS.currentLevel = levelIndex;
+                      }
+                  });
+                },
+              }
+
+              // Initialize here
+              this.plyrPlayer = new Plyr(player, plyrOptions);
+            });
           }, 100);
         }
         // Fuck you apple
         else if (player.canPlayType("application/vnd.apple.mpegurl")) {
           player.src = url;
           player.addEventListener("loadedmetadata", () => player.play());
+          this.plyrPlayer = new Plyr(player, plyrOptions);
         }
       },
       deep: true
@@ -119,14 +155,20 @@ export default {
   },
   mounted() {
     const player = document.getElementById("LivePlayer");
-    new Plyr(player, {
+    const url = this.live.src;
+
+    const plyrOptions = {
       seekTime: 5,
       tooltips: { controls: true, seek: true },
       autoplay: true,
       invertTime: true,
-      toggleInvert: false
-    });
-    const url = this.live.src;
+      toggleInvert: false,
+      i18n: {
+        qualityLabel: {
+          0: 'Source',
+        },
+      },
+    };
 
     if (Hls.isSupported()) {
       this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)});
@@ -151,12 +193,35 @@ export default {
       });
       this.liveHLS.loadSource(url);
       this.liveHLS.attachMedia(player);
-      this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play());
+      this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => {
+        // Transform available levels into an array of integers (height values).
+        const availableQualities = this.liveHLS.levels.map((l) => l.height)
+
+        // Add new qualities to option
+        plyrOptions.quality = {
+          default: availableQualities[0],
+          options: availableQualities,
+          // this ensures Plyr to use Hls to update quality level
+          forced: true,        
+          onChange: (newQuality) => {
+            this.liveHLS.levels.forEach((level, levelIndex) => {
+                if (level.height === newQuality) {
+                  console.log("Found quality match with " + newQuality);
+                  this.liveHLS.currentLevel = levelIndex;
+                }
+            });
+          },
+        }
+
+        // Initialize here
+        this.plyrPlayer = new Plyr(player, plyrOptions);
+      });
     }
     // Fuck you apple
     else if (player.canPlayType("application/vnd.apple.mpegurl")) {
       player.src = url;
       player.addEventListener("loadedmetadata", () => player.play());
+      this.plyrPlayer = new Plyr(player, plyrOptions);
     }
 
     if (localStorage.username) {
