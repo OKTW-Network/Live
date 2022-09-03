@@ -72,7 +72,7 @@ export default {
       localStorage.username = newName;
     },
     live: {
-      handler(newVal) { // eslint-disable-line
+      handler() {
         const url = this.live.src;
         const player = document.getElementById("LivePlayer");
 
@@ -97,7 +97,7 @@ export default {
           this.liveHLS.destroy();
           setTimeout(() => {
             this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)});
-            this.liveHLS.on(Hls.Events.ERROR, function (event, data) {
+            this.liveHLS.on(Hls.Events.ERROR, (event, data) => {
               if (data.fatal) {
                 switch (data.type) {
                   case Hls.ErrorTypes.NETWORK_ERROR: 
@@ -172,7 +172,7 @@ export default {
 
     if (Hls.isSupported()) {
       this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)});
-      this.liveHLS.on(Hls.Events.ERROR, function (event, data) { 
+      this.liveHLS.on(Hls.Events.ERROR, (event, data) => { 
         if (data.fatal) {
           switch (data.type) {
             case Hls.ErrorTypes.NETWORK_ERROR: 
@@ -228,7 +228,7 @@ export default {
       this.username = localStorage.username;
     }
 
-    function createWSConnection(that) {
+    const createWSConnection = (that) => {
       const wsServer = "wss://live.oktw.one/ws";
       const ws = (that.live.ws == null) ? new WebSocket(wsServer) : that.live.ws;
       that.live.ws = ws;
