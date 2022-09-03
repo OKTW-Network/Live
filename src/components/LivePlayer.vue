@@ -30,9 +30,9 @@
 
 <script>
 import BulletScreenMessage from "./BulletScreenMessage.vue";
-import Plyr from 'plyr'
-import 'plyr/dist/plyr.css'
-import Hls from 'hls.js'
+import Plyr from 'plyr';
+import 'plyr/dist/plyr.css';
+import Hls from 'hls.js';
 
 export default {
   name: "LivePlayer",
@@ -64,7 +64,6 @@ export default {
     updateQuality(newQuality) {
       this.liveHLS.levels.forEach((level, levelIndex) => {
         if (level.height === newQuality) {
-          console.log("Found quality match with " + newQuality);
           this.liveHLS.currentLevel = levelIndex;
         }
       });
@@ -95,8 +94,12 @@ export default {
         const plyrOptions = {
           seekTime: 5,
           tooltips: { controls: true, seek: true },
-          autoplay: true,
           invertTime: true,
+          i18n: {
+            qualityLabel: {
+              0: 'Source',
+            },
+          },
           toggleInvert: false
         };
 
@@ -124,6 +127,7 @@ export default {
               }
             });
             this.liveHLS.loadSource(url);
+            this.liveHLS.attachMedia(player);
 
             // From the m3u8 playlist, hls parses the manifest and returns
             // all available video qualities. This is important, in this approach,
@@ -144,9 +148,9 @@ export default {
 
               // Initialize here
               this.plyr = new Plyr(player, plyrOptions);
-            });
 
-            this.liveHLS.attachMedia(player);
+              this.plyr.play();
+            });
           }, 100);
         }
         // Fuck you apple
@@ -166,8 +170,12 @@ export default {
     const plyrOptions = {
       seekTime: 5,
       tooltips: { controls: true, seek: true },
-      autoplay: true,
       invertTime: true,
+      i18n: {
+        qualityLabel: {
+          0: 'Source',
+        },
+      },
       toggleInvert: false
     };
 
@@ -193,6 +201,7 @@ export default {
         }
       });
       this.liveHLS.loadSource(url);
+      this.liveHLS.attachMedia(player);
 
       this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => { 
 
@@ -210,9 +219,9 @@ export default {
 
         // Initialize here
         this.plyr = new Plyr(player, plyrOptions);
-      });
 
-      this.liveHLS.attachMedia(player);
+        this.plyr.play();
+      });
     }
     // Fuck you apple
     else if (player.canPlayType("application/vnd.apple.mpegurl")) {
