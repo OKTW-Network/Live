@@ -256,7 +256,7 @@ export default {
         }
       };
 
-      ws.onclose = () => { // eslint-disable-line
+      ws.onclose = () => {
         that.live.ws = null;
         setTimeout(() => createWSConnection(that),2000);
       };
