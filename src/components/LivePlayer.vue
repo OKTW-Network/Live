@@ -301,7 +301,18 @@ export default {
 .LivePlayer {
   max-width: 100%;
 }
-.LivePlayer:not(:fullscreen) {
+
+.plyr__menu__container {
+  background-color: rgba(0,0,0,0.5)
+}
+
+.plyr:not(:fullscreen) {
+  box-shadow: 0 0 0 3px #111;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.plyr:not(:fullscreen) .LivePlayer {
   border-radius: 10px;
   animation-name: LivePlayer;
   animation-duration: 2s;
@@ -309,9 +320,6 @@ export default {
   box-sizing: border-box;
 }
 
-.plyr__menu__container {
-  background-color: rgba(0,0,0,0.5)
-}
 
 #ViewerName {
   background: #111;
