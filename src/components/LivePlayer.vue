@@ -146,16 +146,14 @@ export default {
               this.plyr = new Plyr(player, plyrOptions);
             });
 
-
             this.liveHLS.attachMedia(player);
-            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play()); // eslint-disable-line
           }, 100);
         }
         // Fuck you apple
         else if (player.canPlayType("application/vnd.apple.mpegurl")) {
           player.src = url;
-          this.plyr = new Plyr(player, plyrOptions);
           player.addEventListener("loadedmetadata", () => player.play());
+          this.plyr = new Plyr(player, plyrOptions);
         }
       },
       deep: true
@@ -215,7 +213,6 @@ export default {
       });
 
       this.liveHLS.attachMedia(player);
-      this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play()); // eslint-disable-line
     }
     // Fuck you apple
     else if (player.canPlayType("application/vnd.apple.mpegurl")) {
