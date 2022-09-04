@@ -178,6 +178,7 @@ export default {
         },
       },
     };
+    this.plyrPlayer = new Plyr(player, plyrOptions);
 
     if (Hls.isSupported()) {
       this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)});
@@ -228,6 +229,7 @@ export default {
         }
 
         // Initialize here
+        if (this.plyr) this.plyr.destroy();
         this.plyrPlayer = new Plyr(player, plyrOptions);
       });
     }
@@ -235,7 +237,6 @@ export default {
     else if (player.canPlayType("application/vnd.apple.mpegurl")) {
       player.src = url;
       player.addEventListener("loadedmetadata", () => player.play());
-      this.plyrPlayer = new Plyr(player, plyrOptions);
     }
 
     if (localStorage.username) {
