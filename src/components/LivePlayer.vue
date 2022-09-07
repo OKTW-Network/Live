@@ -63,7 +63,7 @@ export default {
     }
   },
   beforeDestory() {
-    if (this.plyr) this.plyr.destroy();
+    if (this.plyrPlayer) this.plyrPlayer.destroy();
     if(this.liveHLS)
       this.liveHLS.destroy();
   },
@@ -81,7 +81,7 @@ export default {
           JSON.stringify({ method: "joinChannel", channelName: this.live.name })
         );
 
-        if (this.plyr) this.plyr.destroy();
+        if (this.plyrPlayer) this.plyrPlayer.destroy();
         const plyrOptions = {
           seekTime: 5,
           tooltips: { controls: true, seek: true },
@@ -229,7 +229,7 @@ export default {
         }
 
         // Initialize here
-        if (this.plyr) this.plyr.destroy();
+        if (this.plyrPlayer) this.plyrPlayer.destroy();
         this.plyrPlayer = new Plyr(player, plyrOptions);
       });
     }
