@@ -35,7 +35,7 @@ import BulletScreenMessage from "./BulletScreenMessage.vue";
 import "video.js/dist/video-js.css";
 import videojs from 'video.js';
 import 'videojs-contrib-quality-levels';
-import '@jimchen5209/videojs-hls-quality-selector';
+import 'videojs-hls-quality-selector';
 
 export default {
   name: "LivePlayer",

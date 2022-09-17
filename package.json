@@ -9,11 +9,11 @@
         "now-build": "vue-cli-service build"
     },
     "dependencies": {
-        "@jimchen5209/videojs-hls-quality-selector": "^1.1.4-custom.2",
         "core-js": "^3.19.0",
         "hls.js": "^1.2.1",
         "video.js": "^7.20.3",
         "videojs-contrib-quality-levels": "^2.2.0",
+        "videojs-hls-quality-selector": "jimchen5209/videojs-hls-quality-selector#feat/customize",
         "vue": "^2.6.14"
     },
     "devDependencies": {

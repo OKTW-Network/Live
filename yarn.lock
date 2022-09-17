@@ -1024,16 +1024,6 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@jimchen5209/videojs-hls-quality-selector@^1.1.4-custom.2":
-  version "1.1.4-custom.2"
-  resolved "https://npm.pkg.github.com/download/@jimchen5209/videojs-hls-quality-selector/1.1.4-custom.2/f221506263eded5be817423d08e3e85b8f8f224d#f221506263eded5be817423d08e3e85b8f8f224d"
-  integrity sha512-nsdy7spVPRJwyMPYZ6gkeMoe0x2HhxdyOzFQP43oD2uJRM+nf0I6yRLQr99Rf6slX1mnJlxOhltG2Exofbqs/g==
-  dependencies:
-    global "^4.3.2"
-    karma-safaritechpreview-launcher "0.0.6"
-    video.js "^7.5.5"
-    videojs-contrib-quality-levels "^2.0.9"
-
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz#e5d2e450306a9491e3bd77e323e38d7aff315996"
@@ -8557,6 +8547,15 @@ videojs-font@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/videojs-font/-/videojs-font-3.2.0.tgz#212c9d3f4e4ec3fa7345167d64316add35e92232"
   integrity sha512-g8vHMKK2/JGorSfqAZQUmYYNnXmfec4MLhwtEFS+mMs2IDY398GLysy6BH6K+aS1KMNu/xWZ8Sue/X/mdQPliA==
+
+videojs-hls-quality-selector@jimchen5209/videojs-hls-quality-selector#feat/customize:
+  version "1.1.4-custom"
+  resolved "https://codeload.github.com/jimchen5209/videojs-hls-quality-selector/tar.gz/853f6df0e6dbfc12832e36a616748fb61d594134"
+  dependencies:
+    global "^4.3.2"
+    karma-safaritechpreview-launcher "0.0.6"
+    video.js "^7.5.5"
+    videojs-contrib-quality-levels "^2.0.9"
 
 videojs-vtt.js@^0.15.4:
   version "0.15.4"
