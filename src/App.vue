@@ -115,6 +115,7 @@ export default {
       if (type === "record") {
         this.data.nowPlayer = "record";
         this.data.recordPlayer.src = eventData.src;
+        this.data.recordPlayer.poster = eventData.thumbSrc;
         this.data.recordPlayer.name = eventData.name;
         this.data.recordPlayer.title = eventData.streamer.name;
         this.data.recordPlayer.subtitle = eventData.publishTimeText;
@@ -148,6 +149,7 @@ export default {
       recordPlayer: {
         src: "",
         title: "Select streamer to get records , pls.",
+        poster: "",
         subtitle: ""
       },
       livePlayer: {
@@ -176,6 +178,10 @@ export default {
         hashData.length == 2 ? `${dirURL}${hashData[1]}` : "";
       tmpData["recordPlayer"]["name"] =
         hashData.length == 2 ? `${hashData[1]}` : "";
+      tmpData["recordPlayer"]["poster"] =
+        hashData.length == 2
+          ? `${dirURL}${hashData[1].split(".")[0]}.png`
+          : "";
       tmpData["recordPlayer"]["title"] =
         hashData.length == 2
           ? `${hashData[1].split(".")[0].split("-")[0]}`
