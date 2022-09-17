@@ -2,11 +2,11 @@
   <div id="app">
     <EighteenPlusWarning @accept="Accept" />
     <RecordPlayer
-      v-if="data.nowPlayer === 'record'  && data.eighteenPlus "
+      v-if="data.nowPlayer === 'record'  && data.eighteenPlus && renderPlayer"
       v-bind:video="data.recordPlayer"
     />
     <LivePlayer
-      v-if="data.nowPlayer === 'live' && data.eighteenPlus "
+      v-if="data.nowPlayer === 'live' && data.eighteenPlus && renderPlayer"
       v-bind:live="data.livePlayer"
       v-bind:liveChannel="data.liveChannel"
       v-on:liveUpdate="liveUpdate"
@@ -113,13 +113,17 @@ export default {
     },
     streamerClicked(type, eventData) {
       if (type === "record") {
+        this.renderPlayer = false;
         this.data.nowPlayer = "record";
         this.data.recordPlayer.src = eventData.src;
         this.data.recordPlayer.poster = eventData.thumbSrc;
         this.data.recordPlayer.name = eventData.name;
         this.data.recordPlayer.title = eventData.streamer.name;
         this.data.recordPlayer.subtitle = eventData.publishTimeText;
-        window.scrollTo(0, 0);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          this.renderPlayer = true;
+        }, 100);
       } else if (type === "streamer") {
         if (eventData.streamer.records.length == 0) {
           eventData.streamer.records = eventData.streamer.unloadRecords;
@@ -127,6 +131,7 @@ export default {
           eventData.streamer.records = [];
         }
       } else if (type === "streamerLive") {
+        this.renderPlayer = false;
         this.data.nowPlayer = "live";
         this.data.livePlayer.title = eventData.streamer.name;
         this.data.livePlayer.name = eventData.streamer.name;
@@ -134,7 +139,10 @@ export default {
           eventData.streamer.unloadRecords.length === 0
             ? `${liveURL}live.m3u8`
             : `${liveURL}${eventData.streamer.name}.m3u8`;
-        window.scrollTo(0, 0);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          this.renderPlayer = true;
+        }, 100);
       }
     }
   },
@@ -200,7 +208,8 @@ export default {
           : "";
     }
     return {
-      data: tmpData
+      data: tmpData,
+      renderPlayer: true
     };
   }
 };
