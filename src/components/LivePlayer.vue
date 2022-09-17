@@ -30,6 +30,7 @@
 
 <script>
 import BulletScreenMessage from "./BulletScreenMessage.vue";
+import Hls from 'hls.js'
 
 export default {
   name: "LivePlayer",
@@ -59,7 +60,7 @@ export default {
       this.bulletScreens = this.bulletScreens.filter(i => i.uuid != uuid);
     }
   },
-  beforeDestory(){
+  beforeDestory() {
     if(this.liveHLS)
       this.liveHLS.destroy();
   },
@@ -69,7 +70,7 @@ export default {
       localStorage.username = newName;
     },
     live: {
-      handler(newVal) { // eslint-disable-line
+      handler() {
         const url = this.live.src;
         const player = document.getElementById("LivePlayer");
 
@@ -77,32 +78,32 @@ export default {
           JSON.stringify({ method: "joinChannel", channelName: this.live.name })
         );
 
-        if (Hls.isSupported()) { // eslint-disable-line
+        if (Hls.isSupported()) {
           this.liveHLS.destroy();
           setTimeout(() => {
-            this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)}); // eslint-disable-line
-            this.liveHLS.on(Hls.Events.ERROR, function (event, data) { // eslint-disable-line
+            this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)});
+            this.liveHLS.on(Hls.Events.ERROR, (event, data) => {
               if (data.fatal) {
                 switch (data.type) {
-                  case Hls.ErrorTypes.NETWORK_ERROR: // eslint-disable-line
+                  case Hls.ErrorTypes.NETWORK_ERROR: 
                     // try to recover network error
                     console.log('fatal network error encountered, try to recover');
-                    hls.startLoad(); // eslint-disable-line
+                    this.liveHLS.startLoad();
                     break;
-                  case Hls.ErrorTypes.MEDIA_ERROR: // eslint-disable-line
+                  case Hls.ErrorTypes.MEDIA_ERROR: 
                     console.log('fatal media error encountered, try to recover');
-                    hls.recoverMediaError(); // eslint-disable-line
+                    this.liveHLS.recoverMediaError();
                     break;
                   default:
                     // cannot recover
-                    hls.destroy(); // eslint-disable-line
+                    this.liveHLS.destroy();
                     break;
                 }
               }
             });
             this.liveHLS.loadSource(url);
             this.liveHLS.attachMedia(player);
-            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play()); // eslint-disable-line
+            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play());
           }, 100);
         }
         // Fuck you apple
@@ -118,30 +119,30 @@ export default {
     const player = document.getElementById("LivePlayer");
     const url = this.live.src;
 
-    if (Hls.isSupported()) { // eslint-disable-line
-      this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)}); // eslint-disable-line
-      this.liveHLS.on(Hls.Events.ERROR, function (event, data) { // eslint-disable-line
+    if (Hls.isSupported()) {
+      this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)});
+      this.liveHLS.on(Hls.Events.ERROR, (event, data) => { 
         if (data.fatal) {
           switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR: // eslint-disable-line
+            case Hls.ErrorTypes.NETWORK_ERROR: 
               // try to recover network error
               console.log('fatal network error encountered, try to recover');
-              hls.startLoad(); // eslint-disable-line
+              this.liveHLS.startLoad();
               break;
-            case Hls.ErrorTypes.MEDIA_ERROR: // eslint-disable-line
+            case Hls.ErrorTypes.MEDIA_ERROR: 
               console.log('fatal media error encountered, try to recover');
-              hls.recoverMediaError(); // eslint-disable-line
+              this.liveHLS.recoverMediaError();
               break;
             default:
               // cannot recover
-              hls.destroy(); // eslint-disable-line
+              this.liveHLS.destroy();
               break;
           }
         }
       });
       this.liveHLS.loadSource(url);
       this.liveHLS.attachMedia(player);
-      this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play()); // eslint-disable-line
+      this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play());
     }
     // Fuck you apple
     else if (player.canPlayType("application/vnd.apple.mpegurl")) {
@@ -153,7 +154,7 @@ export default {
       this.username = localStorage.username;
     }
 
-    function createWSConnection(that) {
+    const createWSConnection = (that) => {
       const wsServer = "wss://live.oktw.one/ws";
       const ws = (that.live.ws == null) ? new WebSocket(wsServer) : that.live.ws;
       that.live.ws = ws;
@@ -179,7 +180,7 @@ export default {
         }
       };
 
-      ws.onclose = () => { // eslint-disable-line
+      ws.onclose = () => {
         that.live.ws = null;
         setTimeout(() => createWSConnection(that),2000);
       };
