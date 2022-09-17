@@ -1,6 +1,8 @@
 <template>
   <div class="LivePlayerDiv">
-    <video id="LivePlayer" controls class="LivePlayer"  v-bind:src="live.src"/>
+    <video ref="LivePlayer" controls class="LivePlayer video-js vjs-default-skin vjs-big-play-centered" v-bind:data-poster="live.poster">
+      <source v-bind:src="live.src" type='application/x-mpegURL'/>
+    </video>
     <BulletScreenMessage
       v-for="bulletScreen in bulletScreens"
       v-bind:bulletScreen="bulletScreen"
@@ -30,7 +32,10 @@
 
 <script>
 import BulletScreenMessage from "./BulletScreenMessage.vue";
-import Hls from 'hls.js'
+import "video.js/dist/video-js.css";
+import videojs from 'video.js';
+import 'videojs-contrib-quality-levels';
+import '@jimchen5209/videojs-hls-quality-selector';
 
 export default {
   name: "LivePlayer",
@@ -42,7 +47,7 @@ export default {
     BulletScreenMessage
   },
   data() {
-    return { username: "", bulletScreens: [] };
+    return { username: "", bulletScreens: [], player: null };
   },
   methods: {
     sendBulletScreen() {
@@ -60,95 +65,24 @@ export default {
       this.bulletScreens = this.bulletScreens.filter(i => i.uuid != uuid);
     }
   },
-  beforeDestory() {
-    if(this.liveHLS)
-      this.liveHLS.destroy();
-  },
   watch: {
     username(newName) {
       this.live.ws.send(JSON.stringify({ method: "setName", name: this.username }));
       localStorage.username = newName;
-    },
-    live: {
-      handler() {
-        const url = this.live.src;
-        const player = document.getElementById("LivePlayer");
-
-        this.live.ws.send(
-          JSON.stringify({ method: "joinChannel", channelName: this.live.name })
-        );
-
-        if (Hls.isSupported()) {
-          this.liveHLS.destroy();
-          setTimeout(() => {
-            this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)});
-            this.liveHLS.on(Hls.Events.ERROR, (event, data) => {
-              if (data.fatal) {
-                switch (data.type) {
-                  case Hls.ErrorTypes.NETWORK_ERROR: 
-                    // try to recover network error
-                    console.log('fatal network error encountered, try to recover');
-                    this.liveHLS.startLoad();
-                    break;
-                  case Hls.ErrorTypes.MEDIA_ERROR: 
-                    console.log('fatal media error encountered, try to recover');
-                    this.liveHLS.recoverMediaError();
-                    break;
-                  default:
-                    // cannot recover
-                    this.liveHLS.destroy();
-                    break;
-                }
-              }
-            });
-            this.liveHLS.loadSource(url);
-            this.liveHLS.attachMedia(player);
-            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play());
-          }, 100);
-        }
-        // Fuck you apple
-        else if (player.canPlayType("application/vnd.apple.mpegurl")) {
-          player.src = url;
-          player.addEventListener("loadedmetadata", () => player.play());
-        }
-      },
-      deep: true
+    }
+  },
+  beforeDestroy() {
+    if (this.player) {
+      this.player.dispose();
     }
   },
   mounted() {
-    const player = document.getElementById("LivePlayer");
-    const url = this.live.src;
+    this.player = videojs(this.$refs.LivePlayer, { fluid: true });
+    this.player.hlsQualitySelector({
+      displayCurrentQuality: true,
+    });
 
-    if (Hls.isSupported()) {
-      this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)});
-      this.liveHLS.on(Hls.Events.ERROR, (event, data) => { 
-        if (data.fatal) {
-          switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR: 
-              // try to recover network error
-              console.log('fatal network error encountered, try to recover');
-              this.liveHLS.startLoad();
-              break;
-            case Hls.ErrorTypes.MEDIA_ERROR: 
-              console.log('fatal media error encountered, try to recover');
-              this.liveHLS.recoverMediaError();
-              break;
-            default:
-              // cannot recover
-              this.liveHLS.destroy();
-              break;
-          }
-        }
-      });
-      this.liveHLS.loadSource(url);
-      this.liveHLS.attachMedia(player);
-      this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play());
-    }
-    // Fuck you apple
-    else if (player.canPlayType("application/vnd.apple.mpegurl")) {
-      player.src = url;
-      player.addEventListener("loadedmetadata", () => player.play());
-    }
+    console.log(this.player.qualityLevels());
 
     if (localStorage.username) {
       this.username = localStorage.username;
@@ -219,7 +153,9 @@ export default {
   animation-duration: 2s;
   animation-iteration-count: infinite;
   box-sizing: border-box;
+  overflow: hidden;
 }
+
 #ViewerName {
   background: #111;
   border: 0px;
