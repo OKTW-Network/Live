@@ -189,4 +189,8 @@ export default {
     box-shadow: 0 0 0 3px #111;
   }
 }
+
+.vjs-selected > .vjs-menu-item-text {
+  color: black;
+}
 </style>
