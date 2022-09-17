@@ -1,8 +1,8 @@
 <template>
   <div class="LivePlayerDiv">
-    <video ref="LivePlayer" controls class="LivePlayer video-js vjs-default-skin vjs-big-play-centered" v-bind:data-poster="live.poster">
+    <video-js ref="LivePlayer" controls class="LivePlayer vjs-default-skin vjs-big-play-centered" v-bind:data-poster="live.poster">
       <source v-bind:src="live.src" type='application/x-mpegURL'/>
-    </video>
+    </video-js>
     <BulletScreenMessage
       v-for="bulletScreen in bulletScreens"
       v-bind:bulletScreen="bulletScreen"
@@ -77,7 +77,7 @@ export default {
     }
   },
   mounted() {
-    this.player = videojs(this.$refs.LivePlayer, { fluid: true });
+    this.player = videojs(this.$refs.LivePlayer, { fluid: true, liveui: true, autoplay: true });
     this.player.hlsQualitySelector({
       displayCurrentQuality: true,
     });
