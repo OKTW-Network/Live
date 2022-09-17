@@ -1,6 +1,8 @@
 <template>
   <div class="LivePlayerDiv">
-    <video id="LivePlayer" controls class="LivePlayer"  v-bind:src="live.src"/>
+    <video ref="LivePlayer" controls class="LivePlayer">
+      <source v-bind:src="live.src" type='application/x-mpegURL'/>
+    </video>-->
     <BulletScreenMessage
       v-for="bulletScreen in bulletScreens"
       v-bind:bulletScreen="bulletScreen"
@@ -31,6 +33,7 @@
 <script>
 import BulletScreenMessage from "./BulletScreenMessage.vue";
 import Hls from 'hls.js'
+import fluidPlayer from 'fluid-player';
 
 export default {
   name: "LivePlayer",
@@ -42,7 +45,7 @@ export default {
     BulletScreenMessage
   },
   data() {
-    return { username: "", bulletScreens: [] };
+    return { username: "", bulletScreens: [], player: undefined };
   },
   methods: {
     sendBulletScreen() {
@@ -61,94 +64,139 @@ export default {
     }
   },
   beforeDestory() {
-    if(this.liveHLS)
-      this.liveHLS.destroy();
+    if (this.player) this.player.destroy()
   },
   watch: {
     username(newName) {
       this.live.ws.send(JSON.stringify({ method: "setName", name: this.username }));
       localStorage.username = newName;
-    },
-    live: {
-      handler() {
-        const url = this.live.src;
-        const player = document.getElementById("LivePlayer");
-
-        this.live.ws.send(
-          JSON.stringify({ method: "joinChannel", channelName: this.live.name })
-        );
-
-        if (Hls.isSupported()) {
-          this.liveHLS.destroy();
-          setTimeout(() => {
-            this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)});
-            this.liveHLS.on(Hls.Events.ERROR, (event, data) => {
-              if (data.fatal) {
-                switch (data.type) {
-                  case Hls.ErrorTypes.NETWORK_ERROR: 
-                    // try to recover network error
-                    console.log('fatal network error encountered, try to recover');
-                    this.liveHLS.startLoad();
-                    break;
-                  case Hls.ErrorTypes.MEDIA_ERROR: 
-                    console.log('fatal media error encountered, try to recover');
-                    this.liveHLS.recoverMediaError();
-                    break;
-                  default:
-                    // cannot recover
-                    this.liveHLS.destroy();
-                    break;
-                }
-              }
-            });
-            this.liveHLS.loadSource(url);
-            this.liveHLS.attachMedia(player);
-            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play());
-          }, 100);
-        }
-        // Fuck you apple
-        else if (player.canPlayType("application/vnd.apple.mpegurl")) {
-          player.src = url;
-          player.addEventListener("loadedmetadata", () => player.play());
-        }
-      },
-      deep: true
     }
   },
   mounted() {
-    const player = document.getElementById("LivePlayer");
-    const url = this.live.src;
+    this.player = fluidPlayer(this.$refs.LivePlayer, {
+      modules: {
+        configureHls: (options) => ({
+          liveSyncDurationCount: 0,
+          fetchSetup: context => new Request(context.url),
+          ...options,
+        }),
+        onAfterInitHls: (hls) => {
+          hls.on(Hls.Events.ERROR, (event, data) => { 
+            if (data.fatal) {
+              switch (data.type) {
+                case Hls.ErrorTypes.NETWORK_ERROR: 
+                  // try to recover network error
+                  console.log('fatal network error encountered, try to recover');
+                  this.liveHLS.startLoad();
+                  break;
+                case Hls.ErrorTypes.MEDIA_ERROR: 
+                  console.log('fatal media error encountered, try to recover');
+                  this.liveHLS.recoverMediaError();
+                  break;
+                default:
+                  // cannot recover
+                  this.liveHLS.destroy();
+                  break;
+              }
+            }
+          });
 
-    if (Hls.isSupported()) {
-      this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)});
-      this.liveHLS.on(Hls.Events.ERROR, (event, data) => { 
-        if (data.fatal) {
-          switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR: 
-              // try to recover network error
-              console.log('fatal network error encountered, try to recover');
-              this.liveHLS.startLoad();
-              break;
-            case Hls.ErrorTypes.MEDIA_ERROR: 
-              console.log('fatal media error encountered, try to recover');
-              this.liveHLS.recoverMediaError();
-              break;
-            default:
-              // cannot recover
-              this.liveHLS.destroy();
-              break;
-          }
+          // source https://github.com/fluid-player/fluid-player/issues/437
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            const instance = this.$refs.LivePlayer.id;
+
+            this.player.videoSources = hls.levels.map((source, index) => {
+              return {
+                title: source.height ? `${source.height}p` : 'Source',
+                index,
+                isHD: source.height >= 720,
+              };
+            });
+
+            if (this.player.videoSources.length !== 0) {
+              this.player.videoSources.push({
+                title: 'Auto',
+                index: -1,
+                isHD: false,
+              })
+            }
+
+            this.player.videoSources.reverse();
+            console.log(this.player.videoSources)
+
+            const sourceChangeButton = document.querySelector(
+              `#${instance}_fluid_control_video_source`
+            );
+            sourceChangeButton.style.display = 'inline-block';
+            
+            let appendSourceChange = false;
+            const sourceChangeList = document.createElement('div');
+            sourceChangeList.id = `${instance}_fluid_control_video_source_list`;
+            sourceChangeList.classList.add('fluid_video_sources_list');
+            sourceChangeList.style.display = 'none';
+
+            this.player.videoSources.forEach((source) => {
+              const sourceSelected =
+                source.index === hls.currentLevel ? 'source_selected' : '';
+              const hdElement = source.isHD
+                ? '<sup style="color:#28B8ED" class="fp_hd_source"></sup>'
+                : '';
+
+              const sourceChangeDiv = document.createElement('div');
+              sourceChangeDiv.id = `source_${instance}_${source.title}`;
+              sourceChangeDiv.classList.add('fluid_video_source_list_item');
+              sourceChangeDiv.innerHTML =
+                `<span class="source_button_icon ${sourceSelected}"></span>${source.title}${hdElement}`;
+
+              sourceChangeDiv.addEventListener('click', (event) => {
+                event.stopPropagation();
+                hls.nextLevel = source.index;
+                this.player.openCloseVideoSourceSwitch();
+              });
+
+              sourceChangeList.appendChild(sourceChangeDiv);
+              appendSourceChange = true;
+
+            });
+            
+            if (appendSourceChange) {
+              sourceChangeButton.appendChild(sourceChangeList);
+              sourceChangeButton.addEventListener('click', () => {
+                this.player.openCloseVideoSourceSwitch();
+              });
+            } else {
+              document.querySelector(
+                '.fluid_button_video_source'
+              ).style.display = 'none';
+            }
+          });
+
+          hls.on('hlsLevelSwitched', () => {
+            const instance = this.$refs.LivePlayer.id;
+
+            document
+              .querySelector('.source_button_icon.source_selected')
+              .classList.remove('source_selected');
+
+            const currentLevelTitle = this.$refs.LivePlayer.videoSources.filter(
+              (source) => source.index === hls.currentLevel
+            )[0].title;
+           
+            document
+              .querySelector(
+                `#source_${instance}_${currentLevelTitle} .source_button_icon`
+              )
+              .classList.add('source_selected');
+          });
         }
-      });
-      this.liveHLS.loadSource(url);
-      this.liveHLS.attachMedia(player);
-      this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play());
-    }
-    // Fuck you apple
-    else if (player.canPlayType("application/vnd.apple.mpegurl")) {
-      player.src = url;
-      player.addEventListener("loadedmetadata", () => player.play());
-    }
+      },
+      layoutControls: {
+        primaryColor: "#28B8ED",
+        fillToContainer: true,
+        title: this.live.title,
+        allowTheatre: false
+      }
+    });
 
     if (localStorage.username) {
       this.username = localStorage.username;
@@ -192,6 +240,8 @@ export default {
 </script>
 
 <style>
+@import "~fluid-player/src/css/fluidplayer.css";
+
 .LivePlayerDiv {
   width: 100%;
   display: flex;
@@ -220,6 +270,7 @@ export default {
   animation-iteration-count: infinite;
   box-sizing: border-box;
 }
+
 #ViewerName {
   background: #111;
   border: 0px;
