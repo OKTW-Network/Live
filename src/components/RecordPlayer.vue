@@ -1,6 +1,8 @@
 <template>
   <div class="RecordPlayerDiv">
-    <video controls ref="RecordPlayer" class="RecordPlayer" src="video.src" v-bind:data-poster="video.poster"/>
+    <video controls ref="RecordPlayer" class="RecordPlayer"  v-bind:data-poster="video.poster">
+      <source v-bind:src="video.src" type='video/mp4'/>
+    </video>
     <h1>{{video.title}}</h1>
     <h3>{{video.subtitle}}</h3>
   </div>
@@ -20,20 +22,19 @@ export default {
         primaryColor: "#28B8ED",
         fillToContainer: true,
         title: this.video.title,
+        playbackRateEnabled: true,
         allowTheatre: false,
       }
     });
+  },
+  data() {
+    return { player: undefined }
   }
 };
 </script>
 
 <style>
 @import "~fluid-player/src/css/fluidplayer.css";
-
-.fluid-component, .fluid-component > video {
-    width: 100%;
-    height: 100%;
-}
 
 .RecordPlayerDiv {
   width: 100%;
