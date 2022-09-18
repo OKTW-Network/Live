@@ -1,6 +1,6 @@
 <template>
   <div class="LivePlayerDiv">
-    <video-js ref="LivePlayer" controls class="LivePlayer vjs-default-skin vjs-big-play-centered" v-bind:data-poster="live.poster">
+    <video-js ref="LivePlayer" controls class="LivePlayer vjs-default-skin vjs-big-play-centered">
       <source v-bind:src="live.src" type='application/x-mpegURL'/>
     </video-js>
     <BulletScreenMessage
@@ -36,6 +36,9 @@ import "video.js/dist/video-js.css";
 import videojs from 'video.js';
 import 'videojs-contrib-quality-levels';
 import 'videojs-hls-quality-selector';
+import "videojs-hotkeys";
+import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
+import 'videojs-mobile-ui';
 
 export default {
   name: "LivePlayer",
@@ -77,12 +80,26 @@ export default {
     }
   },
   mounted() {
-    this.player = videojs(this.$refs.LivePlayer, { fluid: true, liveui: true, autoplay: true });
+    this.player = videojs(this.$refs.LivePlayer, {
+      poster: this.live.poster,
+      autoPlay: 'play',
+      fluid: true,
+      liveui: true,
+      plugins: {
+        hotkeys: {
+          enableModifiersForNumbers: false
+        },
+      },
+    });
     this.player.hlsQualitySelector({
       displayCurrentQuality: true,
     });
 
-    console.log(this.player.qualityLevels());
+    this.player.mobileUi({
+      touchControls: {
+        seekSeconds: 5,
+      }
+    })
 
     if (localStorage.username) {
       this.username = localStorage.username;
@@ -190,7 +207,12 @@ export default {
   }
 }
 
+/* Overwrite default text color */
 .vjs-selected > .vjs-menu-item-text {
   color: black;
+}
+
+.vjs-quality-selector {
+  width: 6em !important;
 }
 </style>

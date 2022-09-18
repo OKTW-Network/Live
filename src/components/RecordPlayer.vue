@@ -70,16 +70,16 @@ export default {
 }
 
 /* Use positive time display */
-.vjs-time-control.vjs-current-time {
+.RecordPlayer > .vjs-control-bar > .vjs-time-control.vjs-current-time {
   display: block;
 }
-.vjs-time-control.vjs-time-divider {
+.RecordPlayer > .vjs-control-bar > .vjs-time-control.vjs-time-divider {
   display: block;
 }
-.vjs-time-control.vjs-duration {
+.RecordPlayer > .vjs-control-bar > .vjs-time-control.vjs-duration {
   display: block;
 }
-.vjs-time-control.vjs-remaining-time {
+.RecordPlayer > .vjs-control-bar > .vjs-time-control.vjs-remaining-time {
   display: none;
 }
 </style>
