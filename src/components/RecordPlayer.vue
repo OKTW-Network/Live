@@ -1,8 +1,7 @@
 <template>
   <div class="RecordPlayerDiv">
     <video controls autoplay ref="RecordPlayer" class="RecordPlayer video-js vjs-default-skin vjs-big-play-centered" v-bind:data-poster="video.poster">
-      <source src="https://live.oktw.one/record/james58899-1662217396.mp4" type='video/mp4'/>
-      <!-- <source v-bind:src="video.src" type='video/mp4'/> -->
+      <source v-bind:src="video.src" type='video/mp4'/>
     </video>
     <h1>{{video.title}}</h1>
     <h3>{{video.subtitle}}</h3>
