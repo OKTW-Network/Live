@@ -81,7 +81,6 @@ export default {
   },
   mounted() {
     this.player = videojs(this.$refs.LivePlayer, {
-      poster: this.live.poster,
       autoPlay: 'play',
       fluid: true,
       liveui: true,
