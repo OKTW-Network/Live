@@ -38,6 +38,9 @@ export default {
     });
 
     this.player.mobileUi({
+      fullscreen: {
+        disabled: true
+      },
       touchControls: {
         seekSeconds: 5,
       }
