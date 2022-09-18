@@ -8516,7 +8516,7 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"video.js@^6 || ^7", video.js@^7.20.3, video.js@^7.5.5:
+"video.js@^6 || ^7", video.js@^7, video.js@^7.20.3, video.js@^7.5.5:
   version "7.20.3"
   resolved "https://registry.yarnpkg.com/video.js/-/video.js-7.20.3.tgz#5694741346dc683255993e5069daa15d4bacb646"
   integrity sha512-JMspxaK74LdfWcv69XWhX4rILywz/eInOVPdKefpQiZJSMD5O8xXYueqACP2Q5yqKstycgmmEKlJzZ+kVmDciw==
@@ -8556,6 +8556,19 @@ videojs-hls-quality-selector@jimchen5209/videojs-hls-quality-selector#feat/custo
     karma-safaritechpreview-launcher "0.0.6"
     video.js "^7.5.5"
     videojs-contrib-quality-levels "^2.0.9"
+
+videojs-hotkeys@^0.2.28:
+  version "0.2.28"
+  resolved "https://registry.yarnpkg.com/videojs-hotkeys/-/videojs-hotkeys-0.2.28.tgz#73d7d7b43ff62b046e6b93a0ce71c6ed5fcac105"
+  integrity sha512-M8rlD5OSB3EDRdbS4MRNlGKFpA2sSIStmUPvy5zfl/NigzWaN6r4wnb32rEN0v97GiQwmUfXSmqrPNrXhiFQmQ==
+
+videojs-mobile-ui@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/videojs-mobile-ui/-/videojs-mobile-ui-0.7.0.tgz#cbac7ded4f51bf4ed45f4e59d01cf577d38a7c6c"
+  integrity sha512-cfctMUsu+EJ8IYPfAHR6ZTr2fbJWL3Af9QpvTS7JFvEkrGSMLLpuH62uatQ3pxUs4MISs8kgb8/PUqROpfh7MQ==
+  dependencies:
+    global "^4.4.0"
+    video.js "^7"
 
 videojs-vtt.js@^0.15.4:
   version "0.15.4"

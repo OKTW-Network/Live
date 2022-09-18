@@ -1,6 +1,6 @@
 <template>
   <div class="RecordPlayerDiv">
-    <video controls autoplay ref="RecordPlayer" class="RecordPlayer video-js vjs-default-skin vjs-big-play-centered" v-bind:data-poster="video.poster">
+    <video controls autoplay ref="RecordPlayer" class="RecordPlayer video-js vjs-default-skin vjs-big-play-centered">
       <source v-bind:src="video.src" type='video/mp4'/>
     </video>
     <h1>{{video.title}}</h1>
@@ -11,6 +11,9 @@
 <script>
 import "video.js/dist/video-js.css";
 import videojs from 'video.js';
+import "videojs-hotkeys";
+import 'videojs-mobile-ui/dist/videojs-mobile-ui.css';
+import 'videojs-mobile-ui';
 
 export default {
   name: "RecordPlayer",
@@ -23,7 +26,22 @@ export default {
     }
   },
   mounted() {
-    this.player = videojs(this.$refs.RecordPlayer, { fluid: true });
+    this.player = videojs(this.$refs.RecordPlayer, {
+      poster: this.video.poster,
+      fluid: true,
+      playbackRates: [0.25, 0.5, 1, 1.5, 2, 4],
+      plugins: {
+        hotkeys: {
+          enableModifiersForNumbers: false
+        },
+      },
+    });
+
+    this.player.mobileUi({
+      touchControls: {
+        seekSeconds: 5,
+      }
+    })
   },
   beforeDestroy() {
     if (this.player) {
@@ -49,5 +67,19 @@ export default {
   border-radius: 10px;
   box-sizing: border-box;
   overflow: hidden;
+}
+
+/* Use positive time display */
+.vjs-time-control.vjs-current-time {
+  display: block;
+}
+.vjs-time-control.vjs-time-divider {
+  display: block;
+}
+.vjs-time-control.vjs-duration {
+  display: block;
+}
+.vjs-time-control.vjs-remaining-time {
+  display: none;
 }
 </style>
