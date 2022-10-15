@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import BulletScreenMessage from "./BulletScreenMessage.vue";
+const BulletScreenMessage = () => import("./BulletScreenMessage.vue");
 
 export default {
   name: "LivePlayer",

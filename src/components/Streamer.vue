@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import RecordList from "./RecordList.vue";
-import Divider from "./Divider.vue";
-import LiveButton from "./LiveButton.vue";
+const RecordList = () => import("./RecordList.vue");
+const Divider = () => import("./Divider.vue");
+const LiveButton = () => import("./LiveButton.vue");
 
 export default {
   name: "Streamer",
