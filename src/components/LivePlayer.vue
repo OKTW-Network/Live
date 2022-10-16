@@ -29,8 +29,9 @@
 </template>
 
 <script>
-import BulletScreenMessage from "./BulletScreenMessage.vue";
 import Hls from 'hls.js'
+
+const BulletScreenMessage = () => import("./BulletScreenMessage.vue");
 
 export default {
   name: "LivePlayer",

@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import LivePlayer from "./components/LivePlayer.vue";
-import RecordPlayer from "./components/RecordPlayer.vue";
-import Share from "./components/Share.vue";
-import Streamer from "./components/Streamer.vue";
-import EighteenPlusWarning from "./components/EighteenPlusWarning.vue";
+const LivePlayer = () => import("./components/LivePlayer.vue");
+const RecordPlayer = () => import("./components/RecordPlayer.vue");
+const Share = () => import("./components/Share.vue");
+const Streamer = () => import("./components/Streamer.vue");
+const EighteenPlusWarning = () => import("./components/EighteenPlusWarning.vue");
 
 const dirURL = "/record/";
 const liveURL = "/live/";

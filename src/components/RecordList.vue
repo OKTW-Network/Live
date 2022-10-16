@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Record from "./Record.vue";
+const Record = () => import("./Record.vue");
 
 export default {
   name: "RecordList",
