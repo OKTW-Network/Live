@@ -81,21 +81,21 @@ export default {
           this.liveHLS.destroy();
           setTimeout(() => {
             this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)}); // eslint-disable-line
-            this.liveHLS.on(Hls.Events.ERROR, function (event, data) { // eslint-disable-line
+            this.liveHLS.on(Hls.Events.ERROR, (event, data) => { // eslint-disable-line
               if (data.fatal) {
                 switch (data.type) {
                   case Hls.ErrorTypes.NETWORK_ERROR: // eslint-disable-line
                     // try to recover network error
                     console.log('fatal network error encountered, try to recover');
-                    hls.startLoad(); // eslint-disable-line
+                    this.liveHLS.startLoad(); // eslint-disable-line
                     break;
                   case Hls.ErrorTypes.MEDIA_ERROR: // eslint-disable-line
                     console.log('fatal media error encountered, try to recover');
-                    hls.recoverMediaError(); // eslint-disable-line
+                    this.liveHLS.recoverMediaError(); // eslint-disable-line
                     break;
                   default:
                     // cannot recover
-                    hls.destroy(); // eslint-disable-line
+                    this.liveHLS.destroy(); // eslint-disable-line
                     break;
                 }
               }
@@ -120,21 +120,21 @@ export default {
 
     if (Hls.isSupported()) { // eslint-disable-line
       this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)}); // eslint-disable-line
-      this.liveHLS.on(Hls.Events.ERROR, function (event, data) { // eslint-disable-line
+      this.liveHLS.on(Hls.Events.ERROR, (event, data) => { // eslint-disable-line
         if (data.fatal) {
           switch (data.type) {
             case Hls.ErrorTypes.NETWORK_ERROR: // eslint-disable-line
               // try to recover network error
               console.log('fatal network error encountered, try to recover');
-              hls.startLoad(); // eslint-disable-line
+              this.liveHLS.startLoad(); // eslint-disable-line
               break;
             case Hls.ErrorTypes.MEDIA_ERROR: // eslint-disable-line
               console.log('fatal media error encountered, try to recover');
-              hls.recoverMediaError(); // eslint-disable-line
+              this.liveHLS.recoverMediaError(); // eslint-disable-line
               break;
             default:
               // cannot recover
-              hls.destroy(); // eslint-disable-line
+              this.liveHLS.destroy(); // eslint-disable-line
               break;
           }
         }
