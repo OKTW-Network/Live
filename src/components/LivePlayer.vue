@@ -1,6 +1,10 @@
 <template>
   <div class="LivePlayerDiv">
     <video id="LivePlayer" controls class="LivePlayer"  v-bind:src="live.src"/>
+    <div class="QualityButtons" v-if="qualityList.length > 1">
+      <button class="QualityButton" value="-1" :disabled="selectedQuality == -1" @click="changeQuality">Auto</button>
+      <button class="QualityButton" v-for="(quality, index) in qualityList" :key="quality" :value="index" :disabled="selectedQuality == index" @click="changeQuality">{{quality}}</button>
+    </div>
     <BulletScreenMessage
       v-for="bulletScreen in bulletScreens"
       v-bind:bulletScreen="bulletScreen"
@@ -41,7 +45,7 @@ export default {
     BulletScreenMessage
   },
   data() {
-    return { username: "", bulletScreens: [] };
+    return { username: "", bulletScreens: [], qualityList: [], selectedQuality: -1 };
   },
   methods: {
     sendBulletScreen() {
@@ -57,6 +61,9 @@ export default {
     },
     deleteMessage(uuid) {
       this.bulletScreens = this.bulletScreens.filter(i => i.uuid != uuid);
+    },
+    changeQuality(quality) {
+      this.selectedQuality = parseInt(quality.target.value);
     }
   },
   beforeDestory(){
@@ -102,7 +109,13 @@ export default {
             });
             this.liveHLS.loadSource(url);
             this.liveHLS.attachMedia(player);
-            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play()); // eslint-disable-line
+            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, (_, manifest) => { // eslint-disable-line
+              player.play()
+              this.qualityList = manifest.levels.map(i => i.height ? `${i.height}p (${i.bitrate/1000}kbps)` : "Source")
+              if (localStorage.quality) {
+                this.selectedQuality = localStorage.quality;
+              }
+            });
           }, 100);
         }
         // Fuck you apple
@@ -112,6 +125,12 @@ export default {
         }
       },
       deep: true
+    },
+    selectedQuality(newQuality) {
+      if (this.liveHLS.levels.length > newQuality) {
+        localStorage.quality = newQuality;
+        this.liveHLS.nextLevel = parseInt(newQuality);
+      }
     }
   },
   mounted() {
@@ -141,7 +160,13 @@ export default {
       });
       this.liveHLS.loadSource(url);
       this.liveHLS.attachMedia(player);
-      this.liveHLS.on(Hls.Events.MANIFEST_PARSED, () => player.play()); // eslint-disable-line
+      this.liveHLS.on(Hls.Events.MANIFEST_PARSED, (_, manifest) => { // eslint-disable-line
+        player.play()
+        this.qualityList = manifest.levels.map(i => i.height ? `${i.height}p (${i.bitrate/1000}kbps)` : "Source")
+        if (localStorage.quality) {
+          this.selectedQuality = localStorage.quality;
+        }
+      });
     }
     // Fuck you apple
     else if (player.canPlayType("application/vnd.apple.mpegurl")) {
@@ -218,6 +243,15 @@ export default {
   animation-duration: 2s;
   animation-iteration-count: infinite;
   box-sizing: border-box;
+}
+.QualityButtons {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.QualityButton {
+  color: #111;
+  flex: 1;
 }
 #ViewerName {
   background: #111;
