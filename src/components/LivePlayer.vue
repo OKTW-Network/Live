@@ -3,7 +3,8 @@
     <video id="LivePlayer" controls class="LivePlayer"  v-bind:src="live.src"/>
     <div class="QualityButtons" v-if="qualityList.length > 1">
       <button class="QualityButton" value="-1" :disabled="selectedQuality == -1" @click="changeQuality">Auto</button>
-      <button class="QualityButton" v-for="(quality, index) in qualityList" :key="quality" :value="index" :disabled="selectedQuality == index" @click="changeQuality">{{quality}}</button>
+      <button class="QualityButton" v-for="(quality, index) in qualityList" :key="quality" :value="index"
+        :disabled="selectedQuality == index" @click="changeQuality">{{quality}}</button>
     </div>
     <BulletScreenMessage
       v-for="bulletScreen in bulletScreens"
@@ -111,10 +112,8 @@ export default {
             this.liveHLS.attachMedia(player);
             this.liveHLS.on(Hls.Events.MANIFEST_PARSED, (_, manifest) => { // eslint-disable-line
               player.play()
-              this.qualityList = manifest.levels.map(i => i.height ? `${i.height}p (${i.bitrate/1000}kbps)` : "Source")
-              if (localStorage.quality) {
-                this.selectedQuality = localStorage.quality;
-              }
+              this.qualityList = manifest.levels.map(i => i.height ? `${i.height}p (${i.bitrate / 1000}kbps)` : "Source")
+              if (localStorage.quality) this.selectedQuality = localStorage.quality
             });
           }, 100);
         }
@@ -162,10 +161,8 @@ export default {
       this.liveHLS.attachMedia(player);
       this.liveHLS.on(Hls.Events.MANIFEST_PARSED, (_, manifest) => { // eslint-disable-line
         player.play()
-        this.qualityList = manifest.levels.map(i => i.height ? `${i.height}p (${i.bitrate/1000}kbps)` : "Source")
-        if (localStorage.quality) {
-          this.selectedQuality = localStorage.quality;
-        }
+        this.qualityList = manifest.levels.map(i => i.height ? `${i.height}p (${i.bitrate / 1000}kbps)` : "Source")
+        if (localStorage.quality) this.selectedQuality = localStorage.quality
       });
     }
     // Fuck you apple
