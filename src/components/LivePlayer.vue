@@ -160,7 +160,13 @@ export default {
       this.liveHLS.loadSource(url);
       this.liveHLS.attachMedia(player);
       this.liveHLS.on(Hls.Events.MANIFEST_PARSED, (_, manifest) => { // eslint-disable-line
-        player.play()
+        const play = player.play()
+        if (play) play.catch((error) => {
+          if (error.name === "NotAllowedError") {
+            player.muted = true;
+            player.play();
+          }
+        });
         this.qualityList = manifest.levels.map(i => i.height ? `${i.height}p (${i.bitrate / 1000}kbps)` : "Source")
         if (localStorage.quality) this.selectedQuality = localStorage.quality
       });
