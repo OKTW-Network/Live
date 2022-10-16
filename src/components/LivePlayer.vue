@@ -59,7 +59,7 @@ export default {
       this.bulletScreens = this.bulletScreens.filter(i => i.uuid != uuid);
     }
   },
-  beforeDestory(){
+  beforeDestory() {
     if(this.liveHLS)
       this.liveHLS.destroy();
   },
@@ -69,7 +69,7 @@ export default {
       localStorage.username = newName;
     },
     live: {
-      handler(newVal) { // eslint-disable-line
+      handler() {
         const url = this.live.src;
         const player = document.getElementById("LivePlayer");
 
@@ -81,7 +81,7 @@ export default {
           this.liveHLS.destroy();
           setTimeout(() => {
             this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)}); // eslint-disable-line
-            this.liveHLS.on(Hls.Events.ERROR, function (event, data) { // eslint-disable-line
+            this.liveHLS.on(Hls.Events.ERROR, (event, data) => { // eslint-disable-line
               if (data.fatal) {
                 switch (data.type) {
                   case Hls.ErrorTypes.NETWORK_ERROR: // eslint-disable-line
@@ -120,7 +120,7 @@ export default {
 
     if (Hls.isSupported()) { // eslint-disable-line
       this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)}); // eslint-disable-line
-      this.liveHLS.on(Hls.Events.ERROR, function (event, data) { // eslint-disable-line
+      this.liveHLS.on(Hls.Events.ERROR, (event, data) => {  // eslint-disable-line
         if (data.fatal) {
           switch (data.type) {
             case Hls.ErrorTypes.NETWORK_ERROR: // eslint-disable-line
@@ -153,7 +153,7 @@ export default {
       this.username = localStorage.username;
     }
 
-    function createWSConnection(that) {
+    const createWSConnection = (that) => {
       const wsServer = "wss://live.oktw.one/ws";
       const ws = (that.live.ws == null) ? new WebSocket(wsServer) : that.live.ws;
       that.live.ws = ws;
@@ -179,7 +179,7 @@ export default {
         }
       };
 
-      ws.onclose = () => { // eslint-disable-line
+      ws.onclose = () => {
         that.live.ws = null;
         setTimeout(() => createWSConnection(that),2000);
       };
