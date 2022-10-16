@@ -3723,7 +3723,7 @@ event-pubsub@4.3.0:
   resolved "https://registry.yarnpkg.com/event-pubsub/-/event-pubsub-4.3.0.tgz#f68d816bc29f1ec02c539dc58c8dd40ce72cb36e"
   integrity sha512-z7IyloorXvKbFx9Bpie2+vMJKKx1fH1EN5yiTfp8CiLOTptSYy1g8H4yDpGlEdshL1PBiFtBHepF2cNsqeEeFQ==
 
-eventemitter3@^4.0.0:
+eventemitter3@^4.0.0, eventemitter3@^4.0.3:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-4.0.7.tgz#2de9b68f6528d5644ef5c59526a1b4a07306169f"
   integrity sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==
@@ -4458,6 +4458,14 @@ highlight.js@^10.7.1:
   version "10.7.3"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.7.3.tgz#697272e3991356e40c3cac566a74eef681756531"
   integrity sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==
+
+hls.js@0.14.17:
+  version "0.14.17"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-0.14.17.tgz#0127cff2ec2f994a54eb955fe669ef6153a8e317"
+  integrity sha512-25A7+m6qqp6UVkuzUQ//VVh2EEOPYlOBg32ypr34bcPO7liBMOkKFvbjbCBfiPAOTA/7BSx1Dujft3Th57WyFg==
+  dependencies:
+    eventemitter3 "^4.0.3"
+    url-toolkit "^2.1.6"
 
 hmac-drbg@^1.0.1:
   version "1.0.1"
@@ -8218,6 +8226,11 @@ url-parse@^1.5.10:
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
+
+url-toolkit@^2.1.6:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/url-toolkit/-/url-toolkit-2.2.5.tgz#58406b18e12c58803e14624df5e374f638b0f607"
+  integrity sha512-mtN6xk+Nac+oyJ/PrI7tzfmomRVNFIWKUbG8jdYFt52hxbiReFAXIjYskvu64/dvuW71IcB7lV8l0HvZMac6Jg==
 
 url@^0.11.0:
   version "0.11.0"
