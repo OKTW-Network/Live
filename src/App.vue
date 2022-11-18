@@ -201,10 +201,9 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC");
 * {
-  font-family: "Noto Sans TC", sans-serif;
-  font-weight: 100;
+  font-family: "Noto Sans TC", "Noto Sans CJK TC", system-ui, sans-serif;
+  font-weight: normal;
   color: white;
 }
 body {
