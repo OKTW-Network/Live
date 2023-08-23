@@ -1,8 +1,8 @@
 <template>
   <div @click="emitClick" class="RecordDiv">
     <picture>
-      <source type="image/jxl" :src="record.thumbSrc + 'jxl'">
-      <source type="image/avif" :src="record.thumbSrc + 'avif'">
+      <source type="image/jxl" :srcset="record.thumbSrc + 'jxl'">
+      <source type="image/avif" :srcset="record.thumbSrc + 'avif'">
       <img class="RecordThumb" loading="lazy" :src="record.thumbSrc + 'png'">
     </picture>
     <div class="RecordDuration">{{getDuration}}</div>
