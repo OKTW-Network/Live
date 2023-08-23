@@ -1,6 +1,10 @@
 <template>
   <div @click="emitClick" class="RecordDiv">
-    <img class="RecordThumb" loading="lazy" v-bind:src="record.thumbSrc">
+    <picture>
+      <source type="image/jxl" :src="record.thumbSrc + 'jxl'">
+      <source type="image/avif" :src="record.thumbSrc + 'avif'">
+      <img class="RecordThumb" loading="lazy" :src="record.thumbSrc + 'png'">
+    </picture>
     <div class="RecordDuration">{{getDuration}}</div>
     <div class="RecordPublishTime">{{getPublishTime}}</div>
   </div>
