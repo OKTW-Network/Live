@@ -58,7 +58,7 @@ export default {
               ) * 1000
             ),
             thumbSrc:
-              dirURL + filename.substring(0, filename.length - 3) + "png",
+              dirURL + filename.substring(0, filename.length - 3),
             duration: i.format.duration,
             src: dirURL + filename.substring(0, filename.length - 3) + "mp4",
             name: filename.substring(0, filename.length - 3) + "mp4"
