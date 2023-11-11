@@ -36,6 +36,8 @@
 <script>
 const BulletScreenMessage = () => import("./BulletScreenMessage.vue");
 
+/* global Hls */
+
 export default {
   name: "LivePlayer",
   props: {
@@ -85,25 +87,25 @@ export default {
           JSON.stringify({ method: "joinChannel", channelName: this.live.name })
         );
 
-        if (Hls.isSupported()) { // eslint-disable-line
+        if (Hls.isSupported()) {
           this.liveHLS.destroy();
           setTimeout(() => {
-            this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)}); // eslint-disable-line
-            this.liveHLS.on(Hls.Events.ERROR, (event, data) => { // eslint-disable-line
+            this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)});
+            this.liveHLS.on(Hls.Events.ERROR, (event, data) => {
               if (data.fatal) {
                 switch (data.type) {
-                  case Hls.ErrorTypes.NETWORK_ERROR: // eslint-disable-line
+                  case Hls.ErrorTypes.NETWORK_ERROR:
                     // try to recover network error
                     console.log('fatal network error encountered, try to recover');
-                    this.liveHLS.startLoad(); // eslint-disable-line
+                    this.liveHLS.startLoad();
                     break;
-                  case Hls.ErrorTypes.MEDIA_ERROR: // eslint-disable-line
+                  case Hls.ErrorTypes.MEDIA_ERROR:
                     console.log('fatal media error encountered, try to recover');
-                    this.liveHLS.recoverMediaError(); // eslint-disable-line
+                    this.liveHLS.recoverMediaError();
                     break;
                   default:
                     // cannot recover
-                    this.liveHLS.destroy(); // eslint-disable-line
+                    this.liveHLS.destroy();
                     break;
                 }
               }
@@ -121,7 +123,7 @@ export default {
 
             this.liveHLS.loadSource(url);
             this.liveHLS.attachMedia(player);
-            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, (_, manifest) => { // eslint-disable-line
+            this.liveHLS.on(Hls.Events.MANIFEST_PARSED, (_, manifest) => {
               player.play()
               this.qualityList = manifest.levels.map(i => i.height ? `${i.height}p (${i.bitrate / 1000}kbps)` : "Source")
               if (localStorage.quality) this.selectedQuality = localStorage.quality
@@ -147,23 +149,23 @@ export default {
     const player = document.getElementById("LivePlayer");
     const url = this.live.src;
 
-    if (Hls.isSupported()) { // eslint-disable-line
-      this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)}); // eslint-disable-line
-      this.liveHLS.on(Hls.Events.ERROR, (event, data) => { // eslint-disable-line
+    if (Hls.isSupported()) {
+      this.liveHLS = new Hls({ liveSyncDurationCount: 0, fetchSetup: context => new Request(context.url)});
+      this.liveHLS.on(Hls.Events.ERROR, (event, data) => {
         if (data.fatal) {
           switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR: // eslint-disable-line
+            case Hls.ErrorTypes.NETWORK_ERROR:
               // try to recover network error
               console.log('fatal network error encountered, try to recover');
-              this.liveHLS.startLoad(); // eslint-disable-line
+              this.liveHLS.startLoad();
               break;
-            case Hls.ErrorTypes.MEDIA_ERROR: // eslint-disable-line
+            case Hls.ErrorTypes.MEDIA_ERROR:
               console.log('fatal media error encountered, try to recover');
-              this.liveHLS.recoverMediaError(); // eslint-disable-line
+              this.liveHLS.recoverMediaError();
               break;
             default:
               // cannot recover
-              this.liveHLS.destroy(); // eslint-disable-line
+              this.liveHLS.destroy();
               break;
           }
         }
@@ -181,7 +183,7 @@ export default {
 
       this.liveHLS.loadSource(url);
       this.liveHLS.attachMedia(player);
-      this.liveHLS.on(Hls.Events.MANIFEST_PARSED, (_, manifest) => { // eslint-disable-line
+      this.liveHLS.on(Hls.Events.MANIFEST_PARSED, (_, manifest) => {
         const play = player.play()
         if (play) play.catch((error) => {
           if (error.name === "NotAllowedError") {
@@ -229,7 +231,7 @@ export default {
         }
       };
 
-      ws.onclose = () => { // eslint-disable-line
+      ws.onclose = () => {
         that.live.ws = null;
         setTimeout(() => createWSConnection(that),2000);
       };
