@@ -168,6 +168,17 @@ export default {
           }
         }
       });
+
+      // Workaround firefox codec test fail
+      let origListener = this.liveHLS.listeners(Hls.Events.BUFFER_CODECS);
+      this.liveHLS.removeAllListeners([Hls.Events.BUFFER_CODECS]);
+      this.liveHLS.on(Hls.Events.BUFFER_CODECS, (event, data) => {
+        if (data.video && data.video.container === "video/mp4" && data.video.codec && !MediaSource.isTypeSupported(`${data.video.container};codecs=${data.video.codec}`)) {
+          data.video.codec = "avc1.640034"; // Override level to 5.2
+        }
+      });
+      origListener.forEach(f => this.liveHLS.on(Hls.Events.BUFFER_CODECS, f));
+
       this.liveHLS.loadSource(url);
       this.liveHLS.attachMedia(player);
       this.liveHLS.on(Hls.Events.MANIFEST_PARSED, (_, manifest) => { // eslint-disable-line
