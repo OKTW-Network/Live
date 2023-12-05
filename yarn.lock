@@ -2499,7 +2499,7 @@ __metadata:
     "@vue/cli-plugin-babel": ^5.0.8
     "@vue/cli-plugin-eslint": ~5.0.8
     "@vue/cli-service": ^5.0.8
-    core-js: ^3.33.0
+    core-js: ^3.34.0
     eslint: ^8.50.0
     eslint-plugin-vue: ^9.17.0
     vue: ^2.7.14
@@ -3495,7 +3495,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.33.0, core-js@npm:^3.8.3":
+"core-js@npm:^3.34.0":
+  version: 3.34.0
+  resolution: "core-js@npm:3.34.0"
+  checksum: 26b0d103716b33fc660ee8737da7bc9475fbc655f93bbf1360ab692966449d18f2fc393805095937283db9f919ca2aa5c88d86d16f2846217983ad7da707e31e
+  languageName: node
+  linkType: hard
+
+"core-js@npm:^3.8.3":
   version: 3.33.0
   resolution: "core-js@npm:3.33.0"
   checksum: dd62217935ac281faf6f833bb306fb891162919fcf9c1f0c975b1b91e82ac09a940f5deb5950bbb582739ceef716e8bd7e4f9eab8328932fb029d3bc2ecb2881
